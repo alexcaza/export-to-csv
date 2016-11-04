@@ -1,4 +1,7 @@
-# Angular2-csv
+# Angular2-csv | Export to CSV  in Angular2
+
+> Helper library for create CSV file in Angular2
+> 
 
 ## Installation
 
@@ -9,6 +12,7 @@ npm install --save Angular2-csv
 ## Example
 ```javascript
 
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 var data = [
   {
@@ -34,10 +38,34 @@ var data = [
   },
 ];
 
-var component = new Angular2Csv(data, 'My Report');
+new Angular2Csv(data, 'My Report');
 
 ```
 
-## API
+## API | **Angular2Csv(data, filename, options)**
 
-"Angular2Csv(data, filename, options)"
+
+| Option        | Default           | Description  |
+| :------------- |:-------------:| -----|
+| **fieldSeparator**      | , | Defines the field separator character |
+| **quoteStrings**      | "      | If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult |
+| **decimalseparator** | .      | Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).|
+| **showLabels** | false      | If provided, would use this attribute to create a header row |
+| **showTitle** | false      |   |
+
+
+**Example**
+---
+
+```javascript
+  var options = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: true, 
+    showTitle: true 
+  };
+
+  Angular2Csv(data, filename, options);
+
+```javascript
