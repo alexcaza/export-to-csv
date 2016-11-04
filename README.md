@@ -68,4 +68,4 @@ new Angular2Csv(data, 'My Report');
 
   Angular2Csv(data, filename, options);
 
-```javascript
+```
