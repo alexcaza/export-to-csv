@@ -1,6 +1,6 @@
 {
   "name": "angular2-csv",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Helper library for create CSV file in Angular 2",
   "repository": {
     "type": "git",
@@ -12,12 +12,17 @@
     "prepublish": "tsc"
   },
   "keywords": [
-    "angular",
     "angular2",
+    "angular-2",
+    "export-to-csv",
+    "export-to-excel",
     "csv",
-    "excel"
+    "excel",
+    "libreoffice",
+    "openoffice"
   ],
   "author": "javiertelioz",
+  "email": "jtelio118@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/javiertelioz/angular2-csv/issues"
