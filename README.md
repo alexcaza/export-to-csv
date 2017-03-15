@@ -6,7 +6,7 @@
 ## Installation
 
 ```javascript
-npm install --save Angular2-csv
+npm install --save angular2-csv
 ```
 
 ## Example
@@ -69,3 +69,10 @@ new Angular2Csv(data, 'My Report');
   Angular2Csv(data, filename, options);
 
 ```
+#Credits
+---
+
+|                |
+| :------------- |
+| **[sn123](https://github.com/sn123)** |
+| **[arf1980](https://github.com/arf1980)** |
