@@ -59,7 +59,7 @@ export class Angular2Csv {
    */
 	private generateCsv(): void {
 		this.csv += CsvConfigConsts.BOM;
-		
+
 		if(this._options.showTitle) {
 			this.csv += this._options.title + '\r\n\n';
 		}
@@ -72,17 +72,23 @@ export class Angular2Csv {
 			return;
 		}
 
-		let uri = 'data:text/csv;charset=utf-8,' + encodeURI(this.csv);
-		let link = document.createElement("a");
+		if(navigator.msSaveBlob){
+			let filename = this._options.filename.replace(/ /g,"_") + ".csv";
+			let blob = new Blob([this.csv], {"type": "text/csv;charset=utf8;"});
+			navigator.msSaveBlob(blob, filename);
+		} else {
+			let uri = 'data:text/csv;charset=utf-8,' + encodeURI(this.csv);
+			let link = document.createElement("a");
 
-		link.href = uri;
-		
-		link.setAttribute('visibility','hidden');
-		link.download = this._options.filename.replace(/ /g,"_") + ".csv";
+			link.href = uri;
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+			link.setAttribute('visibility','hidden');
+			link.download = this._options.filename.replace(/ /g,"_") + ".csv";
+
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		}
 	}
 	/**
 	 * Create Headers
