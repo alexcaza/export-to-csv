@@ -114,7 +114,7 @@ export class Angular2Csv {
   			row += this.formartData(this.data[i][index]) + this._options.fieldSeparator;;
   		}
 
-  		row.slice(0, row.length - 1);
+			row = row.slice(0, -1);
   		this.csv += row + CsvConfigConsts.EOL;
   	}
   }
