@@ -52,6 +52,7 @@ new Angular2Csv(data, 'My Report');
 | **decimalseparator** | .      | Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).|
 | **showLabels** | false      | If provided, would use this attribute to create a header row |
 | **showTitle** | false      |   |
+| **useBom** | true      | If true, adds a BOM character at the start of the CSV |
 
 
 **Example**
@@ -63,7 +64,8 @@ new Angular2Csv(data, 'My Report');
     quoteStrings: '"',
     decimalseparator: '.',
     showLabels: true, 
-    showTitle: true 
+    showTitle: true,
+    useBom: true
   };
 
   Angular2Csv(data, filename, options);
