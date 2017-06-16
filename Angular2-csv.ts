@@ -77,7 +77,7 @@ export class Angular2Csv {
 			let blob = new Blob([this.csv], {"type": "text/csv;charset=utf8;"});
 			navigator.msSaveBlob(blob, filename);
 		} else {
-			let uri = 'data:text/csv;charset=utf-8,' + encodeURI(this.csv);
+			let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this.csv);
 			let link = document.createElement("a");
 
 			link.href = uri;
