@@ -6,6 +6,7 @@ export interface Options {
 	showLabels: boolean;
 	showTitle: boolean;
 	title: string;
+	useBom: boolean;
 }
 
 export class CsvConfigConsts {
@@ -20,6 +21,7 @@ export class CsvConfigConsts {
 	public static DEFAULT_TITLE = 'My Report';
 	public static DEFAULT_FILENAME = 'mycsv.csv';
 	public static DEFAULT_SHOW_LABELS = false;
+	public static DEFAULT_USE_BOM = true;
 
 }
 
@@ -30,7 +32,8 @@ export const ConfigDefaults: Options = {
 	decimalseparator:		CsvConfigConsts.DEFAULT_DECIMAL_SEPARATOR,
 	showLabels: 				CsvConfigConsts.DEFAULT_SHOW_LABELS,
 	showTitle:					CsvConfigConsts.DEFAULT_SHOW_TITLE,
-	title: 							CsvConfigConsts.DEFAULT_TITLE
+	title: 							CsvConfigConsts.DEFAULT_TITLE,
+	useBom:					CsvConfigConsts.DEFAULT_USE_BOM
 };
 export class Angular2Csv {
 
@@ -58,7 +61,9 @@ export class Angular2Csv {
    * Generate and Download Csv
    */
 	private generateCsv(): void {
-		this.csv += CsvConfigConsts.BOM;
+		if(this._options.useBom) {
+			this.csv += CsvConfigConsts.BOM;
+		}
 
 		if(this._options.showTitle) {
 			this.csv += this._options.title + '\r\n\n';
