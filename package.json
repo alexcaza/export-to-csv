@@ -1,62 +1,62 @@
 {
-    "name": "angular2-csv",
-    "version": "0.2.2",
-    "description": "Helper library for create CSV file in Angular 2",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/javiertelioz/angular2-csv.git"
-    },
-    "scripts": {
-        "dev": "tsc --watch",
-        "test": "karma start",
-        "prepublish": "tsc"
-    },
-    "keywords": [
-        "angular2",
-        "angular-2",
-        "export-to-csv",
-        "export-to-excel",
-        "csv",
-        "excel",
-        "libreoffice",
-        "openoffice"
-    ],
-    "author": "javiertelioz",
-    "email": "jtelio118@gmail.com",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/javiertelioz/angular2-csv/issues"
-    },
-    "main": "Angular2-csv.js",
-    "typings": "./Angular2-csv.d.ts",
-    "homepage": "https://github.com/javiertelioz/angular2-csv#readme",
-    "devDependencies": {
-        "@angular/common": "^2.4.2||^4.0.0",
-        "@angular/core": "^2.4.2||^4.0.0",
-        "@angular/http": "^2.4.2||^4.0.0",
-        "@angular/platform-browser": "^2.4.2||^4.0.0",
-        "@types/jasmine": "^2.5.46",
-        "@types/js-base64": "^2.1.3",
-        "awesome-typescript-loader": "^3.1.2",
-        "core-js": "^2.3.0",
-        "es6-shim": "^0.35.3",
-        "jasmine-core": "^2.4.1",
-        "karma": "^1.5.0",
-        "karma-chrome-launcher": "^2.0.0",
-        "karma-jasmine": "^1.0.2",
-        "karma-phantomjs-launcher": "^1.0.4",
-        "karma-sourcemap-loader": "^0.3.7",
-        "karma-webpack": "^2.0.3",
-        "phantomjs-prebuilt": "^2.1.7",
-        "reflect-metadata": "^0.1.10",
-        "rxjs": "^5.0.0",
-        "typescript": "~2.1.5",
-        "webpack": "^2.3.1",
-        "zone.js": "~0.7.2||~0.8.5"
-    },
-    "peerDependencies": {
-        "@angular/core": "^2.0.0||^4.0.0",
-        "@angular/http": "^2.0.0||^4.0.0",
-        "rxjs": "^5.0.0"
-    }
+  "name": "angular2-csv",
+  "version": "0.2.3",
+  "description": "Helper library for create CSV file in Angular 2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javiertelioz/angular2-csv.git"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "test": "karma start",
+    "prepublish": "tsc"
+  },
+  "keywords": [
+    "angular2",
+    "angular-2",
+    "export-to-csv",
+    "export-to-excel",
+    "csv",
+    "excel",
+    "libreoffice",
+    "openoffice"
+  ],
+  "author": "javiertelioz",
+  "email": "jtelio118@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/javiertelioz/angular2-csv/issues"
+  },
+  "main": "Angular2-csv.js",
+  "typings": "./Angular2-csv.d.ts",
+  "homepage": "https://github.com/javiertelioz/angular2-csv#readme",
+  "devDependencies": {
+    "@angular/common": "^2.4.2||^4.0.0",
+    "@angular/core": "^2.4.2||^4.0.0",
+    "@angular/http": "^2.4.2||^4.0.0",
+    "@angular/platform-browser": "^2.4.2||^4.0.0",
+    "@types/jasmine": "^2.5.46",
+    "@types/js-base64": "^2.1.3",
+    "awesome-typescript-loader": "^3.1.2",
+    "core-js": "^2.3.0",
+    "es6-shim": "^0.35.3",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "phantomjs-prebuilt": "^2.1.7",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.0.0",
+    "typescript": "~2.1.5",
+    "webpack": "^2.3.1",
+    "zone.js": "~0.7.2||~0.8.5"
+  },
+  "peerDependencies": {
+    "@angular/core": "^2.0.0||^4.0.0",
+    "@angular/http": "^2.0.0||^4.0.0",
+    "rxjs": "^5.0.0"
+  }
 }
