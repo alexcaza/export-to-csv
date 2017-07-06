@@ -77,15 +77,16 @@ export class Angular2Csv {
 			return;
 		}
 
+		let blob = new Blob([this.csv], {"type": "text/csv;charset=utf8;"});
+	
 		if(navigator.msSaveBlob){
 			let filename = this._options.filename.replace(/ /g,"_") + ".csv";
-			let blob = new Blob([this.csv], {"type": "text/csv;charset=utf8;"});
 			navigator.msSaveBlob(blob, filename);
 		} else {
 			let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this.csv);
 			let link = document.createElement("a");
 
-			link.href = uri;
+			link.href = URL.createObjectURL(blob);
 
 			link.setAttribute('visibility','hidden');
 			link.download = this._options.filename.replace(/ /g,"_") + ".csv";
