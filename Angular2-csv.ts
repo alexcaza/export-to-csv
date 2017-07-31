@@ -7,6 +7,7 @@ export interface Options {
 	showTitle: boolean;
 	title: string;
 	useBom: boolean;
+    	headers: string[];
 }
 
 export class CsvConfigConsts {
@@ -22,6 +23,7 @@ export class CsvConfigConsts {
 	public static DEFAULT_FILENAME = 'mycsv.csv';
 	public static DEFAULT_SHOW_LABELS = false;
 	public static DEFAULT_USE_BOM = true;
+    	public static DEFAULT_HEADER = [];
 
 }
 
@@ -33,7 +35,8 @@ export const ConfigDefaults: Options = {
 	showLabels: 				CsvConfigConsts.DEFAULT_SHOW_LABELS,
 	showTitle:					CsvConfigConsts.DEFAULT_SHOW_TITLE,
 	title: 							CsvConfigConsts.DEFAULT_TITLE,
-	useBom:					CsvConfigConsts.DEFAULT_USE_BOM
+	useBom:					CsvConfigConsts.DEFAULT_USE_BOM,
+    	headers: CsvConfigConsts.DEFAULT_HEADER
 };
 export class Angular2Csv {
 
@@ -100,15 +103,15 @@ export class Angular2Csv {
 	 * Create Headers
 	 */
 	getHeaders(): void {
-		if(this._options.showLabels) {
-			let row = "";
-			for (var index in this.data[0]) {
-				row += index + this._options.fieldSeparator;
-			}
+		if (this._options.headers.length > 0) {
+            let row = "";
+            for (var column of this._options.headers) {
+                row += column + this._options.fieldSeparator;
+            }
 
-			row = row.slice(0, -1);
-      this.csv += row + CsvConfigConsts.EOL;
-    }
+            row = row.slice(0, -1);
+            this.csv += row + CsvConfigConsts.EOL;
+        }
   }
   /**
    * Create Body
