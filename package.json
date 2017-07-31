@@ -1,6 +1,6 @@
 {
   "name": "angular2-csv",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Helper library for create CSV file in Angular 2",
   "repository": {
     "type": "git",
