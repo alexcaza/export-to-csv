@@ -11,3 +11,4 @@ Thumbs.db
 !custom.d.ts
 .idea/
 *.iml
+test/
