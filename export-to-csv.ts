@@ -56,14 +56,10 @@ export class ExportToCsv {
         this._options = objectAssign({}, ConfigDefaults, options);
     }
 
-    constructor(options?: Options, filename?: string) {
+    constructor(options?: Options) {
         let config = options || {};
 
         this._options = objectAssign({}, ConfigDefaults, config);
-
-        if (this._options.filename) {
-            this._options.filename = filename;
-        }
 
         if (
             this._options.useKeysAsHeaders
