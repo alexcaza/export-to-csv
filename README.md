@@ -1,18 +1,21 @@
-# Angular2-csv | Export to CSV  in Angular2
+# export-to-csv | Export to CSV Mini Library
+Based off of [this library](https://github.com/javiertelioz/angular2-csv) by Javier Telio
 
-> Helper library for create CSV file in Angular2
+> Helper library to quickly and easily create a CSV file in browser or Node
 > 
 
 ## Installation
 
-```javascript
+For now, the package much be added using github links in your `package.json` file.
+An npm package is in the TODOs :)
+<!-- ```javascript
 npm install --save angular2-csv
-```
+``` -->
 
-## Example
+## Usage
 ```javascript
 
-import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { ExportToCsv } from 'alexcaza/export-to-csv';
 
 var data = [
   {
@@ -38,11 +41,13 @@ var data = [
   },
 ];
 
-new Angular2Csv(data, 'My Report');
+const exportToCsv = new ExportToCsv({
+    // ...options here
+} /* , filename */);
 
 ```
 
-## API | **Angular2Csv(data, filename, options)**
+## API
 
 
 | Option        | Default           | Description  |
@@ -59,7 +64,7 @@ new Angular2Csv(data, 'My Report');
 ---
 
 ```javascript
-  var options = { 
+  const options = { 
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalseparator: '.',
@@ -68,9 +73,14 @@ new Angular2Csv(data, 'My Report');
     useBom: true
   };
 
-  Angular2Csv(data, filename, options);
+const exportToCsv = ExportToCsv(options);
 
 ```
+
+# TODOs
+* Update README with full API
+* Create and public NPM package
+
 #Credits
 ---
 
