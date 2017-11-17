@@ -1,13 +1,14 @@
 export interface Options {
-    filename: string;
-    fieldSeparator: string;
-    quoteStrings: string;
-    decimalseparator: string;
-    showLabels: boolean;
-    showTitle: boolean;
-    title: string;
-    useBom: boolean;
-    headers: string[];
+    filename?: string;
+    fieldSeparator?: string;
+    quoteStrings?: string;
+    decimalseparator?: string;
+    showLabels?: boolean;
+    showTitle?: boolean;
+    title?: string;
+    useBom?: boolean;
+    headers?: string[];
+    useKeysAsHeaders?: boolean;
 }
 
 export class CsvConfigConsts {
@@ -23,7 +24,8 @@ export class CsvConfigConsts {
     public static DEFAULT_FILENAME = 'mycsv.csv';
     public static DEFAULT_SHOW_LABELS = false;
     public static DEFAULT_USE_BOM = true;
-    public static DEFAULT_HEADER = [];
+    public static DEFAULT_HEADER: string[] = [];
+    public static DEFAULT_KEYS_AS_HEADERS = false;
 
 }
 
@@ -36,21 +38,26 @@ export const ConfigDefaults: Options = {
     showTitle: CsvConfigConsts.DEFAULT_SHOW_TITLE,
     title: CsvConfigConsts.DEFAULT_TITLE,
     useBom: CsvConfigConsts.DEFAULT_USE_BOM,
-    headers: CsvConfigConsts.DEFAULT_HEADER
+    headers: CsvConfigConsts.DEFAULT_HEADER,
+    useKeysAsHeaders: CsvConfigConsts.DEFAULT_KEYS_AS_HEADERS,
 };
-export class Angular2Csv {
+export class ExportToCsv {
 
-    public fileName: string;
-    public labels: Array<String>;
-    public data: any[];
 
+    private _data: any[];
     private _options: Options;
-    private csv = "";
+    private _csv = "";
 
-    constructor(DataJSON: any, filename: string, options?: any) {
+    get options(): Options {
+        return this._options;
+    }
+
+    set options(options: Options) {
+        this._options = objectAssign({}, ConfigDefaults, options);
+    }
+
+    constructor(options?: Options, filename?: string) {
         let config = options || {};
-
-        this.data = typeof DataJSON != 'object' ? JSON.parse(DataJSON) : DataJSON;
 
         this._options = objectAssign({}, ConfigDefaults, config);
 
@@ -58,37 +65,57 @@ export class Angular2Csv {
             this._options.filename = filename;
         }
 
-        this.generateCsv();
+        if (
+            this._options.useKeysAsHeaders
+            && this._options.headers
+            && this._options.headers.length > 0
+        ) {
+            console.warn('Option to use object keys as headers was set, but headers were still passed!');
+        }
+
     }
     /**
      * Generate and Download Csv
      */
-    private generateCsv(): void {
+    generateCsv(jsonData: any, shouldReturnCsv: boolean = false): void | any {
+
+        // Make sure to reset csv data on each run
+        this._csv = '';
+
+        this._parseData(jsonData);
+
         if (this._options.useBom) {
-            this.csv += CsvConfigConsts.BOM;
+            this._csv += CsvConfigConsts.BOM;
         }
 
         if (this._options.showTitle) {
-            this.csv += this._options.title + '\r\n\n';
+            this._csv += this._options.title + '\r\n\n';
         }
 
-        this.getHeaders();
-        this.getBody();
+        this._getHeaders();
+        this._getBody();
 
-        if (this.csv == '') {
+        if (this._csv == '') {
             console.log("Invalid data");
             return;
         }
 
-        let blob = new Blob([this.csv], { "type": "text/csv;charset=utf8;" });
+        // When the consumer asks for the data, exit the function
+        // by returning the CSV data built at this point
+        if (shouldReturnCsv) {
+            return this._csv;
+        }
+
+        // Create CSV blob to download if requesting in the browser and the
+        // consumer doesn't set the shouldReturnCsv param
+        let blob = new Blob([this._csv], { "type": "text/csv;charset=utf8;" });
 
         if (navigator.msSaveBlob) {
             let filename = this._options.filename.replace(/ /g, "_") + ".csv";
             navigator.msSaveBlob(blob, filename);
         } else {
-            let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this.csv);
+            let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this._csv);
             let link = document.createElement("a");
-
             link.href = URL.createObjectURL(blob);
 
             link.setAttribute('visibility', 'hidden');
@@ -99,47 +126,54 @@ export class Angular2Csv {
             document.body.removeChild(link);
         }
     }
+
     /**
      * Create Headers
      */
-    getHeaders(): void {
-        if (this._options.headers.length > 0) {
+    private _getHeaders(): void {
+        if (!this._options.showLabels) {
+            return;
+        }
+        const useKeysAsHeaders = this._options.useKeysAsHeaders;
+        const headers = useKeysAsHeaders ? Object.keys(this._data[0]) : this._options.headers;
+
+        if (headers.length > 0) {
             let row = "";
-            for (var column of this._options.headers) {
-                row += column + this._options.fieldSeparator;
+            for (let keyPos = 0; keyPos < headers.length; keyPos++) {
+                row += headers[keyPos] + this._options.fieldSeparator;
             }
 
             row = row.slice(0, -1);
-            this.csv += row + CsvConfigConsts.EOL;
+            this._csv += row + CsvConfigConsts.EOL;
         }
     }
     /**
      * Create Body
      */
-    getBody() {
-        const keys = this.data[0] && this.data[0].keys();
-        for (var i = 0; i < this.data.length; i++) {
+    private _getBody() {
+        const keys = Object.keys(this._data[0]);
+        for (var i = 0; i < this._data.length; i++) {
             let row = "";
             for (let keyPos = 0; keyPos < keys.length; keyPos++) {
                 const key = keys[keyPos];
-                row += this.formatData(this.data[i][key]) + this._options.fieldSeparator;
+                row += this._formatData(this._data[i][key]) + this._options.fieldSeparator;
             }
 
             row = row.slice(0, -1);
-            this.csv += row + CsvConfigConsts.EOL;
+            this._csv += row + CsvConfigConsts.EOL;
         }
     }
     /**
      * Format Data
      * @param {any} data
      */
-    formatData(data: any) {
+    private _formatData(data: any) {
 
-        if (this._options.decimalseparator === 'locale' && this.isFloat(data)) {
+        if (this._options.decimalseparator === 'locale' && this._isFloat(data)) {
             return data.toLocaleString();
         }
 
-        if (this._options.decimalseparator !== '.' && this.isFloat(data)) {
+        if (this._options.decimalseparator !== '.' && this._isFloat(data)) {
             return data.toString().replace('.', this._options.decimalseparator);
         }
 
@@ -160,8 +194,21 @@ export class Angular2Csv {
      * Check if is Float
      * @param {any} input
      */
-    isFloat(input: any) {
+    private _isFloat(input: any) {
         return +input === input && (!isFinite(input) || Boolean(input % 1));
+    }
+    /**
+     * Parse the collection given to it
+     * 
+     * @private
+     * @param {*} jsonData 
+     * @returns {any[]} 
+     * @memberof Angular2Csv
+     */
+    private _parseData(jsonData: any): any[] {
+        this._data = typeof jsonData != 'object' ? JSON.parse(jsonData) : jsonData;
+
+        return this._data;
     }
 }
 

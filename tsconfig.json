@@ -1,26 +1,26 @@
 {
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "ES5",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "declaration": true,
-    "lib": [
-      "dom",
-      "es2015.collection",
-      "es2015.promise",
-      "es5"
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "declaration": true,
+        "lib": [
+            "dom",
+            "es2015.collection",
+            "es2015.promise",
+            "es5"
+        ],
+        "moduleResolution": "node"
+    },
+    "files": [
+        "Angular2-csv.ts",
+        "Angular2-csv.spec.ts",
+        "custom.d.ts"
     ],
-    "moduleResolution": "node"
-  },
-  "files": [
-    "Angular2-csv.ts",
-    "Angular2-csv.spec.ts",
-    "custom.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "exclude": [
+        "node_modules"
+    ]
 }
