@@ -127,7 +127,7 @@ export class ExportToCsv {
      * Create Headers
      */
     private _getHeaders(): void {
-        if (!this._options.showLabels) {
+        if (!this._options.showLabels && !this._options.useKeysAsHeaders) {
             return;
         }
         const useKeysAsHeaders = this._options.useKeysAsHeaders;
