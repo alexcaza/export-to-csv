@@ -20,8 +20,8 @@ export class CsvConfigConsts {
     public static DEFAULT_DECIMAL_SEPARATOR = '.';
     public static DEFAULT_QUOTE = '"';
     public static DEFAULT_SHOW_TITLE = false;
-    public static DEFAULT_TITLE = 'My Report';
-    public static DEFAULT_FILENAME = 'mycsv.csv';
+    public static DEFAULT_TITLE = 'My Generated Report';
+    public static DEFAULT_FILENAME = 'generated';
     public static DEFAULT_SHOW_LABELS = false;
     public static DEFAULT_USE_BOM = true;
     public static DEFAULT_HEADER: string[] = [];
