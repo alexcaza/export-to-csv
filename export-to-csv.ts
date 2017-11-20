@@ -199,7 +199,7 @@ export class ExportToCsv {
      * @private
      * @param {*} jsonData 
      * @returns {any[]} 
-     * @memberof Angular2Csv
+     * @memberof ExportToCsv
      */
     private _parseData(jsonData: any): any[] {
         this._data = typeof jsonData != 'object' ? JSON.parse(jsonData) : jsonData;

@@ -16,9 +16,8 @@
         "moduleResolution": "node"
     },
     "files": [
-        "Angular2-csv.ts",
-        "Angular2-csv.spec.ts",
-        "custom.d.ts"
+        "export-to-csv.ts",
+        "index.ts"
     ],
     "exclude": [
         "node_modules"
