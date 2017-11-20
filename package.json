@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "test": "karma start",
+    "test": "tsc && karma start",
     "prepublish": "tsc"
   },
   "keywords": [
@@ -43,6 +43,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
+    "karma-typescript": "^3.0.8",
     "typescript": "~2.4.0"
   }
 }
