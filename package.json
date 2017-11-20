@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "test": "tsc && karma start",
-    "prepublish": "tsc"
+    "prepublishOnly": "tsc"
   },
   "keywords": [
     "export-to-csv",
@@ -31,8 +31,8 @@
   "bugs": {
     "url": "https://github.com/alexcaza/export-to-csv/issues"
   },
-  "main": "index.js",
-  "typings": "export-to-csv.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/export-to-csv.d.ts",
   "homepage": "https://github.com/alexcaza/export-to-csv#readme",
   "devDependencies": {
     "@types/jasmine": "^2.5.46",

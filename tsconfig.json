@@ -13,7 +13,8 @@
             "es2015.promise",
             "es5"
         ],
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "outDir": "./build"
     },
     "files": [
         "export-to-csv.ts",
