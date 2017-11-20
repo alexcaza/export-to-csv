@@ -13,3 +13,4 @@ Thumbs.db
 *.iml
 test/
 coverage/
+build/
