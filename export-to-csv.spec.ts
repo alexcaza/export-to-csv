@@ -6,21 +6,21 @@ const mockData = [
         age: 13,
         average: 8.2,
         approved: true,
-        description: "using 'Content here, content here' "
+        description: "Test 1 description"
     },
     {
         name: 'Test 2',
         age: 11,
         average: 8.2,
         approved: true,
-        description: "using 'Content here, content here' "
+        description: "Test 2 description"
     },
     {
         name: 'Test 4',
         age: 10,
         average: 8.2,
         approved: true,
-        description: "using 'Content here, content here' "
+        description: "Test 3 description"
     },
 ];
 
@@ -29,7 +29,7 @@ describe('ExportToCsv', () => {
         const options: Options = {
             title: "Test Csv",
             useBom: true,
-            useKeysAsHeaders: true
+            useKeysAsHeaders: true,
         }
 
         const exportToCsvInstance = new ExportToCsv(options);
@@ -37,7 +37,32 @@ describe('ExportToCsv', () => {
         expect(string).toBeTruthy(typeof string === 'string');
     });
 
-    it('should download a CSV file', () => {
+    it('should use keys of first object in collection as headers', () => {
+        const options: Options = {
+            title: "Test Csv",
+            useBom: true,
+            useKeysAsHeaders: true,
+        };
+
+        const exportToCsvInstance = new ExportToCsv(options);
+        const string = exportToCsvInstance.generateCsv(mockData, true);
+
+        const firstLine = string.split('\n')[0];
+        const keys = firstLine.split(',').map((s: string) => s.trim());
+
+        const mockDataKeys = Object.keys(mockData[0]);
+        expect(keys).toEqual(mockDataKeys);
+    });
+
+    // it('should properly overwrite default options through contructor', () => {
+    //     const exportToCsvInstance = new ExportToCsv();
+    //     const defaults = { ...exportToCsvInstance.options };
+    // });
+
+    it('should initiate download through spawned browser', () => {
+        if (!window) {
+            pending('it should only initiate download when run in browser context');
+        }
         const options: Options = {
             title: "Test Csv",
             useBom: true,
