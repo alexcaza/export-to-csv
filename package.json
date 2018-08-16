@@ -1,49 +1,49 @@
 {
-  "name": "export-to-csv",
-  "version": "0.1.1",
-  "description": "Easily create CSV data from json collection",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alexcaza/export-to-csv.git"
-  },
-  "scripts": {
-    "dev": "tsc --watch",
-    "test": "tsc && karma start",
-    "prepublishOnly": "tsc"
-  },
-  "keywords": [
-    "export-to-csv",
-    "export-to-excel",
-    "csv",
-    "excel",
-    "libreoffice",
-    "openoffice",
-    "angular2",
-    "typescript",
-    "react",
-    "ngx",
-    "angular4",
-    "angular5"
-  ],
-  "author": "alexcaza",
-  "email": "alex@alexcaza.com",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/alexcaza/export-to-csv/issues"
-  },
-  "main": "./build/index.js",
-  "types": "./build/export-to-csv.d.ts",
-  "homepage": "https://github.com/alexcaza/export-to-csv#readme",
-  "devDependencies": {
-    "@types/jasmine": "^2.5.46",
-    "es6-shim": "^0.35.3",
-    "jasmine-core": "^2.4.1",
-    "karma": "^1.5.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-jasmine": "^1.0.2",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-typescript": "^3.0.8",
-    "typescript": "~2.4.0"
-  }
+    "name": "export-to-csv",
+    "version": "0.1.2",
+    "description": "Easily create CSV data from json collection",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alexcaza/export-to-csv.git"
+    },
+    "scripts": {
+        "dev": "tsc --watch",
+        "test": "tsc && karma start",
+        "prepublishOnly": "tsc"
+    },
+    "keywords": [
+        "export-to-csv",
+        "export-to-excel",
+        "csv",
+        "excel",
+        "libreoffice",
+        "openoffice",
+        "angular2",
+        "typescript",
+        "react",
+        "ngx",
+        "angular4",
+        "angular5"
+    ],
+    "author": "alexcaza",
+    "email": "alex@alexcaza.com",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/alexcaza/export-to-csv/issues"
+    },
+    "main": "./build/index.js",
+    "types": "./build/export-to-csv.d.ts",
+    "homepage": "https://github.com/alexcaza/export-to-csv#readme",
+    "devDependencies": {
+        "@types/jasmine": "^2.5.46",
+        "es6-shim": "^0.35.3",
+        "jasmine-core": "^2.4.1",
+        "karma": "^1.5.0",
+        "karma-chrome-launcher": "^2.0.0",
+        "karma-jasmine": "^1.0.2",
+        "karma-phantomjs-launcher": "^1.0.4",
+        "karma-sourcemap-loader": "^0.3.7",
+        "karma-typescript": "^3.0.8",
+        "typescript": "~2.4.0"
+    }
 }
