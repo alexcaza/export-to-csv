@@ -18,7 +18,7 @@ import { ExportToCsv } from 'export-to-csv';
 
 var data = [
   {
-    name: "Test 1",
+    name: 'Test 1',
     age: 13,
     average: 8.2,
     approved: true,
@@ -52,7 +52,9 @@ var data = [
     // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
   };
 
-const exportToCsv = new ExportToCsv(options);
+const csvExporter = new ExportToCsv(options);
+
+csvExporter.generateCsv(data);
 
 ```
 
@@ -62,15 +64,15 @@ const exportToCsv = new ExportToCsv(options);
 | Option        | Default           | Description  |
 | :------------- |:-------------:| -----|
 | **fieldSeparator**      | , | Defines the field separator character |
-| **filename**      | 'generated' | Defines the field separator character |
+| **filename**      | 'generated' | Sets the name of the downloaded file. ".csv" will be appended to the value provided. |
 | **quoteStrings**      | "      | If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult |
 | **decimalseparator** | .      | Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).|
 | **showLabels** | false      | If true, the first row will be the `headers` option or object keys if `useKeysAsHeaders` is present|
-| **showTitle** | false      |   |
+| **showTitle** | false      | Includes the title as the first line in the generated file   |
 | **title** | 'My Generated Report' | This string will be used as the report title |
-| **useBom** | true      | If true, adds a BOM character at the start of the CSV |
+| **useBom** | true      | If true, adds a BOM character at the start of the CSV to improve file compatibility |
 | **useKeysAsHeaders** | false      | If true, this will use the keys of the first object in the collection as the column headers|
-| **headers** | []      | Expects an array of strings, which is supplied, will be used as the column headers|
+| **headers** | []      | Expects an array of strings, which if supplied, will be used as the column headers|
 
 
 # Thanks!
