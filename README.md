@@ -43,7 +43,7 @@ var data = [
   const options = { 
     fieldSeparator: ',',
     quoteStrings: '"',
-    decimalseparator: '.',
+    decimalSeparator: '.',
     showLabels: true, 
     showTitle: true,
     title: 'My Awesome CSV',
@@ -66,7 +66,7 @@ csvExporter.generateCsv(data);
 | **fieldSeparator**      | , | Defines the field separator character |
 | **filename**      | 'generated' | Sets the name of the downloaded file. ".csv" will be appended to the value provided. |
 | **quoteStrings**      | "      | If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult |
-| **decimalseparator** | .      | Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).|
+| **decimalSeparator** | .      | Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).|
 | **showLabels** | false      | If true, the first row will be the `headers` option or object keys if `useKeysAsHeaders` is present|
 | **showTitle** | false      | Includes the title as the first line in the generated file   |
 | **title** | 'My Generated Report' | This string will be used as the report title |
