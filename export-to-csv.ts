@@ -6,6 +6,7 @@ export interface Options {
     showLabels?: boolean;
     showTitle?: boolean;
     title?: string;
+    useTextFile?: boolean,
     useBom?: boolean;
     headers?: string[];
     useKeysAsHeaders?: boolean;
@@ -23,6 +24,7 @@ export class CsvConfigConsts {
     public static DEFAULT_TITLE = 'My Generated Report';
     public static DEFAULT_FILENAME = 'generated';
     public static DEFAULT_SHOW_LABELS = false;
+    public static DEFAULT_USE_TEXT_FILE= false;
     public static DEFAULT_USE_BOM = true;
     public static DEFAULT_HEADER: string[] = [];
     public static DEFAULT_KEYS_AS_HEADERS = false;
@@ -37,6 +39,7 @@ export const ConfigDefaults: Options = {
     showLabels: CsvConfigConsts.DEFAULT_SHOW_LABELS,
     showTitle: CsvConfigConsts.DEFAULT_SHOW_TITLE,
     title: CsvConfigConsts.DEFAULT_TITLE,
+    useTextFile: CsvConfigConsts.DEFAULT_USE_TEXT_FILE,
     useBom: CsvConfigConsts.DEFAULT_USE_BOM,
     headers: CsvConfigConsts.DEFAULT_HEADER,
     useKeysAsHeaders: CsvConfigConsts.DEFAULT_KEYS_AS_HEADERS,
@@ -104,18 +107,21 @@ export class ExportToCsv {
 
         // Create CSV blob to download if requesting in the browser and the
         // consumer doesn't set the shouldReturnCsv param
-        let blob = new Blob([this._csv], { "type": "text/csv;charset=utf8;" });
+        const FileType = this._options.useTextFile ? 'plain' : 'csv';
+        const fileExtension = this._options.useTextFile ? '.txt' : '.csv';
+        let blob = new Blob([this._csv], { "type": "text/" + FileType + ";charset=utf8;" });
 
         if (navigator.msSaveBlob) {
-            let filename = this._options.filename.replace(/ /g, "_") + ".csv";
+            let filename = this._options.filename.replace(/ /g, "_") + fileExtension;
             navigator.msSaveBlob(blob, filename);
         } else {
-            let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this._csv);
+            const attachmentType = this._options.useTextFile ? 'text' : 'csv';
+            let uri = 'data:attachment/'+ attachmentType +';charset=utf-8,' + encodeURI(this._csv);
             let link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
 
             link.setAttribute('visibility', 'hidden');
-            link.download = this._options.filename.replace(/ /g, "_") + ".csv";
+            link.download = this._options.filename.replace(/ /g, "_") + fileExtension;
 
             document.body.appendChild(link);
             link.click();
