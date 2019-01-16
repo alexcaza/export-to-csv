@@ -47,6 +47,7 @@ var data = [
     showLabels: true, 
     showTitle: true,
     title: 'My Awesome CSV',
+    useTextFile: false,
     useBom: true,
     useKeysAsHeaders: true,
     // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
@@ -71,6 +72,7 @@ csvExporter.generateCsv(data);
 | **showTitle** | false      | Includes the title as the first line in the generated file   |
 | **title** | 'My Generated Report' | This string will be used as the report title |
 | **useBom** | true      | If true, adds a BOM character at the start of the CSV to improve file compatibility |
+| **useTextFile** | false      | If true, returns a `.txt` file instead of `.csv` |
 | **useKeysAsHeaders** | false      | If true, this will use the keys of the first object in the collection as the column headers|
 | **headers** | []      | Expects an array of strings, which if supplied, will be used as the column headers|
 

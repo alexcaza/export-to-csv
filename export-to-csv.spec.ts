@@ -74,3 +74,52 @@ describe('ExportToCsv', () => {
 
     });
 });
+
+describe('ExportToCsv As A Text File', () => {
+    it('should create a comma seperated string', () => {
+        const options: Options = {
+            title: "Test Csv 1",
+            useTextFile: true,
+            useBom: true,
+            useKeysAsHeaders: true,
+        };
+
+        const exportToCsvInstance = new ExportToCsv(options);
+        const string = exportToCsvInstance.generateCsv(mockData, true);
+        expect(string).toBeTruthy(typeof string === 'string');
+    });
+
+    it('should use keys of first object in collection as headers', () => {
+        const options: Options = {
+            filename: "Test Csv 2",
+            useTextFile: true,
+            useBom: true,
+            useKeysAsHeaders: true,
+        };
+
+        const exportToCsvInstance = new ExportToCsv(options);
+        const string = exportToCsvInstance.generateCsv(mockData, true);
+
+        const firstLine = string.split('\n')[0];
+        const keys = firstLine.split(',').map((s: string) => s.trim());
+
+        const mockDataKeys = Object.keys(mockData[0]);
+        expect(keys).toEqual(mockDataKeys);
+    });
+
+    it('should initiate download through spawned browser', () => {
+        if (!window) {
+            pending('it should only initiate download when run in browser context');
+        }
+        const options: Options = {
+            filename: "Test Csv 3",
+            useTextFile: true,
+            useBom: true,
+            useKeysAsHeaders: true
+        };
+
+        const exportToCsvInstance = new ExportToCsv(options);
+        exportToCsvInstance.generateCsv(mockData);
+
+    });
+});
