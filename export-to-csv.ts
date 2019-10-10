@@ -8,8 +8,13 @@ export interface Options {
     title?: string;
     useTextFile?: boolean,
     useBom?: boolean;
-    headers?: string[];
+    headers?: string[] | MappedHeaders[];
     useKeysAsHeaders?: boolean;
+}
+
+export interface MappedHeaders {
+    headerName: string;
+    objectKey: string
 }
 
 export class CsvConfigConsts {
@@ -50,6 +55,7 @@ export class ExportToCsv {
     private _data: any[];
     private _options: Options;
     private _csv = "";
+    private _isMappedHeaders = false;
 
     get options(): Options {
         return this._options;
@@ -137,7 +143,12 @@ export class ExportToCsv {
             return;
         }
         const useKeysAsHeaders = this._options.useKeysAsHeaders;
-        const headers = useKeysAsHeaders ? Object.keys(this._data[0]) : this._options.headers;
+        let headers = useKeysAsHeaders ? Object.keys(this._data[0]) : this._options.headers;
+
+        if (headers.every((h: string|MappedHeaders) => typeof h === 'object')) {
+            this._isMappedHeaders = true;
+            headers = headers.map((h: MappedHeaders) => h.headerName);
+        }
 
         if (headers.length > 0) {
             let row = "";
@@ -153,7 +164,11 @@ export class ExportToCsv {
      * Create Body
      */
     private _getBody() {
-        const keys = Object.keys(this._data[0]);
+        let keys = Object.keys(this._data[0]);
+        if (this._isMappedHeaders) {
+            keys = this._options.headers.map((h: MappedHeaders) => h.objectKey);
+        }
+
         for (var i = 0; i < this._data.length; i++) {
             let row = "";
             for (let keyPos = 0; keyPos < keys.length; keyPos++) {
