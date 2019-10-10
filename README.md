@@ -74,7 +74,7 @@ csvExporter.generateCsv(data);
 | **useBom** | true      | If true, adds a BOM character at the start of the CSV to improve file compatibility |
 | **useTextFile** | false      | If true, returns a `.txt` file instead of `.csv` |
 | **useKeysAsHeaders** | false      | If true, this will use the keys of the first object in the collection as the column headers|
-| **headers** | []      | Expects an array of strings, which if supplied, will be used as the column headers|
+| **headers** | []      | Expects an array of strings or { headerName:string, objecKey:string }. Print the colums headers in case of an array of strings. In case of object array, the resulting CSV will only print the provided columns (header included), in the given headers order. |
 
 
 # Thanks!
