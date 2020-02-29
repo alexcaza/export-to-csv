@@ -13,7 +13,6 @@ export interface Options {
 }
 
 export class CsvConfigConsts {
-
     public static EOL = "\r\n";
     public static BOM = "\ufeff";
 
@@ -28,7 +27,6 @@ export class CsvConfigConsts {
     public static DEFAULT_USE_BOM = true;
     public static DEFAULT_HEADER: string[] = [];
     public static DEFAULT_KEYS_AS_HEADERS = false;
-
 }
 
 export const ConfigDefaults: Options = {
@@ -44,9 +42,8 @@ export const ConfigDefaults: Options = {
     headers: CsvConfigConsts.DEFAULT_HEADER,
     useKeysAsHeaders: CsvConfigConsts.DEFAULT_KEYS_AS_HEADERS,
 };
+
 export class ExportToCsv {
-
-
     private _data: any[];
     private _options: Options;
     private _csv = "";
@@ -56,13 +53,13 @@ export class ExportToCsv {
     }
 
     set options(options: Options) {
-        this._options = objectAssign({}, ConfigDefaults, options);
+        this._options = { ...ConfigDefaults, ...options };
     }
 
     constructor(options?: Options) {
         let config = options || {};
 
-        this._options = objectAssign({}, ConfigDefaults, config);
+        this._options = { ...ConfigDefaults, ...config };
 
         if (
             this._options.useKeysAsHeaders
@@ -71,13 +68,11 @@ export class ExportToCsv {
         ) {
             console.warn('Option to use object keys as headers was set, but headers were still passed!');
         }
-
     }
     /**
      * Generate and Download Csv
      */
     generateCsv(jsonData: any, shouldReturnCsv: boolean = false): void | any {
-
         // Make sure to reset csv data on each run
         this._csv = '';
 
@@ -170,7 +165,6 @@ export class ExportToCsv {
      * @param {any} data
      */
     private _formatData(data: any) {
-
         if (this._options.decimalSeparator === 'locale' && this._isFloat(data)) {
             return data.toLocaleString();
         }
@@ -209,51 +203,6 @@ export class ExportToCsv {
      */
     private _parseData(jsonData: any): any[] {
         this._data = typeof jsonData != 'object' ? JSON.parse(jsonData) : jsonData;
-
         return this._data;
     }
-}
-
-let hasOwnProperty = Object.prototype.hasOwnProperty;
-let propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-/**
- * Convet to Object
- * @param {any} val
- */
-function toObject(val: any) {
-    if (val === null || val === undefined) {
-        throw new TypeError('Object.assign cannot be called with null or undefined');
-    }
-    return Object(val);
-}
-/**
- * Assign data  to new Object
- * @param {any}   target
- * @param {any[]} ...source
- */
-function objectAssign(target: any, ...source: any[]) {
-    let from: any;
-    let to = toObject(target);
-    let symbols: any;
-
-    for (var s = 1; s < arguments.length; s++) {
-        from = Object(arguments[s]);
-
-        for (var key in from) {
-            if (hasOwnProperty.call(from, key)) {
-                to[key] = from[key];
-            }
-        }
-
-        if ((<any>Object).getOwnPropertySymbols) {
-            symbols = (<any>Object).getOwnPropertySymbols(from);
-            for (var i = 0; i < symbols.length; i++) {
-                if (propIsEnumerable.call(from, symbols[i])) {
-                    to[symbols[i]] = from[symbols[i]];
-                }
-            }
-        }
-    }
-    return to;
 }
