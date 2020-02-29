@@ -7,12 +7,6 @@
         "experimentalDecorators": true,
         "sourceMap": true,
         "declaration": true,
-        "lib": [
-            "dom",
-            "es2015.collection",
-            "es2015.promise",
-            "es5"
-        ],
         "moduleResolution": "node",
         "outDir": "./build"
     },
@@ -21,7 +15,5 @@
         "export-to-csv.spec.ts",
         "index.ts"
     ],
-    "exclude": [
-        "node_modules"
-    ]
+    "exclude": ["node_modules"]
 }
