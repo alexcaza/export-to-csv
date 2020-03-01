@@ -48,14 +48,6 @@ export class ExportToCsv {
     private _options: Options;
     private _csv = "";
 
-    get options(): Options {
-        return this._options;
-    }
-
-    set options(options: Options) {
-        this._options = { ...ConfigDefaults, ...options };
-    }
-
     constructor(options?: Options) {
         let config = options || {};
 
