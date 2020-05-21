@@ -50,6 +50,7 @@ export class ExportToCsv {
     private _data: any[];
     private _options: Options;
     private _csv = "";
+    public processing: boolean = false;
 
     get options(): Options {
         return this._options;
@@ -78,8 +79,9 @@ export class ExportToCsv {
      */
     generateCsv(jsonData: any, shouldReturnCsv: boolean = false): void | any {
 
-        // Make sure to reset csv data on each run
+        // Make sure to reset csv data on each run and set processing flag to true
         this._csv = '';
+        this.processing = true;
 
         this._parseData(jsonData);
 
@@ -93,6 +95,9 @@ export class ExportToCsv {
 
         this._getHeaders();
         this._getBody();
+        
+        // Set processing flag to false after the object is converted to csv data
+        this.processing = false;
 
         if (this._csv == '') {
             console.log("Invalid data");
