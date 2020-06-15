@@ -54,7 +54,7 @@ describe('ExportToCsv', () => {
             description: "Test 5 description"
         });
         const string = exportToCsvInstance.generateCsv(data, true);
-        console.log(string);
+
         expect(string).toBeTruthy(typeof string === 'string');
         expect(string).toContain(",,");
         expect(string).not.toContain("undefined");
