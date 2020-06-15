@@ -43,7 +43,7 @@
         "karma-jasmine": "^1.0.2",
         "karma-phantomjs-launcher": "^1.0.4",
         "karma-sourcemap-loader": "^0.3.7",
-        "karma-typescript": "^3.0.8",
+        "karma-typescript": "^5.0.3",
         "typescript": "~2.4.0"
     }
 }
