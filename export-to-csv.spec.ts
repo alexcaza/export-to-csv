@@ -37,6 +37,29 @@ describe('ExportToCsv', () => {
         expect(string).toBeTruthy(typeof string === 'string');
     });
 
+    it ('should use blank string when data value is null or undefined', () => {
+        const options: Options = {
+            title: "Test Csv",
+            useBom: true,
+            useKeysAsHeaders: true,
+            useBlanksForUndefined: true
+        }
+
+        const exportToCsvInstance = new ExportToCsv(options);
+        const data = JSON.parse(JSON.stringify(mockData));
+        data.push( {
+            name: 'Test 5',
+            average: 9.2,
+            approved: false,
+            description: "Test 5 description"
+        });
+        const string = exportToCsvInstance.generateCsv(data, true);
+        console.log(string);
+        expect(string).toBeTruthy(typeof string === 'string');
+        expect(string).toContain(",,");
+        expect(string).not.toContain("undefined");
+    });
+
     it('should use keys of first object in collection as headers', () => {
         const options: Options = {
             title: "Test Csv",

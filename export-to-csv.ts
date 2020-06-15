@@ -10,6 +10,7 @@ export interface Options {
     useBom?: boolean;
     headers?: string[];
     useKeysAsHeaders?: boolean;
+    useBlanksForUndefined?: boolean;
 }
 
 export class CsvConfigConsts {
@@ -28,6 +29,7 @@ export class CsvConfigConsts {
     public static DEFAULT_USE_BOM = true;
     public static DEFAULT_HEADER: string[] = [];
     public static DEFAULT_KEYS_AS_HEADERS = false;
+    public static DEFAULT_USE_BLANKS_FOR_UNDEFINED = false;
 
 }
 
@@ -43,6 +45,7 @@ export const ConfigDefaults: Options = {
     useBom: CsvConfigConsts.DEFAULT_USE_BOM,
     headers: CsvConfigConsts.DEFAULT_HEADER,
     useKeysAsHeaders: CsvConfigConsts.DEFAULT_KEYS_AS_HEADERS,
+    useBlanksForUndefined: CsvConfigConsts.DEFAULT_USE_BLANKS_FOR_UNDEFINED
 };
 export class ExportToCsv {
 
@@ -171,6 +174,10 @@ export class ExportToCsv {
      */
     private _formatData(data: any) {
 
+        if (this._options.useBlanksForUndefined && !data ) {
+            return "";
+        }
+
         if (this._options.decimalSeparator === 'locale' && this._isFloat(data)) {
             return data.toLocaleString();
         }
@@ -201,10 +208,10 @@ export class ExportToCsv {
     }
     /**
      * Parse the collection given to it
-     * 
+     *
      * @private
-     * @param {*} jsonData 
-     * @returns {any[]} 
+     * @param {*} jsonData
+     * @returns {any[]}
      * @memberof ExportToCsv
      */
     private _parseData(jsonData: any): any[] {
