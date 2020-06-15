@@ -50,6 +50,7 @@ var data = [
     useTextFile: false,
     useBom: true,
     useKeysAsHeaders: true,
+    useBlanksForUndefined: true
     // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
   };
 
@@ -75,6 +76,7 @@ csvExporter.generateCsv(data);
 | **useTextFile** | false      | If true, returns a `.txt` file instead of `.csv` |
 | **useKeysAsHeaders** | false      | If true, this will use the keys of the first object in the collection as the column headers|
 | **headers** | []      | Expects an array of strings, which if supplied, will be used as the column headers|
+| **useBlanksForUndefined** | false | If true, undefined or null values are omitted from the csv, resulting output like `Value 1,,Value 3`
 
 
 # Thanks!
