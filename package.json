@@ -4,8 +4,8 @@
     "description": "Easily create CSV data from json collection",
     "repository": {
         "type": "git",
-        "url": "https://github.com/alexcaza/export-to-csv.git"
-    },
+        "url": "git+https://github.com/commoditrader/export-to-csv.git"
+      },
     "scripts": {
         "dev": "tsc --watch",
         "test": "tsc && karma start",
