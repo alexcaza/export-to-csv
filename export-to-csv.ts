@@ -170,6 +170,9 @@ export class ExportToCsv {
      * @param {any} data
      */
     private _formatData(data: any) {
+        if (data === undefined) {
+            return "";
+        }
 
         if (this._options.decimalSeparator === 'locale' && this._isFloat(data)) {
             return data.toLocaleString();
@@ -190,6 +193,7 @@ export class ExportToCsv {
         if (typeof data === 'boolean') {
             return data ? 'TRUE' : 'FALSE';
         }
+        
         return data;
     }
     /**
