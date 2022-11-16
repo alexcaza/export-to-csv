@@ -181,7 +181,7 @@ export class ExportToCsv {
 
         if (typeof data === 'string') {
             data = data.replace(/"/g, '""');
-            if (this._options.quoteStrings || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
+            if (this._options.quoteStrings || data.indexOf(this._options.fieldSeparator) > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
                 data = this._options.quoteStrings + data + this._options.quoteStrings;
             }
             return data;
