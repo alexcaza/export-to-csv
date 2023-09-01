@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "test": "tsc && karma start",
+    "test": "karma start",
     "prepublishOnly": "tsc"
   },
   "keywords": [
