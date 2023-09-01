@@ -43,6 +43,7 @@
         "karma-phantomjs-launcher": "^1.0.4",
         "karma-sourcemap-loader": "^0.4.0",
         "karma-typescript": "^5.5.4",
+        "prettier": "3.0.3",
         "typescript": "~5.2.2"
     }
 }
