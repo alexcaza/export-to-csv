@@ -89,8 +89,8 @@ export class ExportToCsv {
       this._csv += this._options.title + "\r\n\n";
     }
 
-    this._getHeaders();
-    this._getBody();
+    this._createHeaders();
+    this._createBody();
 
     if (this._csv == "") {
       console.log("Invalid data");
@@ -128,10 +128,7 @@ export class ExportToCsv {
     document.body.removeChild(link);
   }
 
-  /**
-   * Create Headers
-   */
-  private _getHeaders(): void {
+  private _getHeaders(): Array<string> {
     if (!this._options.showLabels && !this._options.useKeysAsHeaders) {
       return;
     }
@@ -140,6 +137,14 @@ export class ExportToCsv {
       ? Object.keys(this._data[0])
       : this._options.headers;
 
+    return headers;
+  }
+
+  /**
+   * Create Headers
+   */
+  private _createHeaders(): void {
+    const headers = this._getHeaders();
     if (headers.length > 0) {
       let row = "";
       for (let keyPos = 0; keyPos < headers.length; keyPos++) {
@@ -153,14 +158,15 @@ export class ExportToCsv {
   /**
    * Create Body
    */
-  private _getBody() {
-    const keys = Object.keys(this._data[0]);
+  private _createBody() {
+    const headers = this._getHeaders();
     for (var i = 0; i < this._data.length; i++) {
       let row = "";
-      for (let keyPos = 0; keyPos < keys.length; keyPos++) {
-        const key = keys[keyPos];
+      for (let keyPos = 0; keyPos < headers.length; keyPos++) {
+        const header = headers[keyPos];
         row +=
-          this._formatData(this._data[i][key]) + this._options.fieldSeparator;
+          this._formatData(this._data[i][header]) +
+          this._options.fieldSeparator;
       }
 
       row = row.slice(0, -1);

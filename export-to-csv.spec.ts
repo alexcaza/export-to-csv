@@ -54,11 +54,6 @@ describe("ExportToCsv", () => {
     expect(keys).toEqual(mockDataKeys);
   });
 
-  // it('should properly overwrite default options through contructor', () => {
-  //     const exportToCsvInstance = new ExportToCsv();
-  //     const defaults = { ...exportToCsvInstance.options };
-  // });
-
   it("should initiate download through spawned browser", () => {
     if (!window) {
       pending("it should only initiate download when run in browser context");
@@ -71,6 +66,23 @@ describe("ExportToCsv", () => {
 
     const exportToCsvInstance = new ExportToCsv(options);
     exportToCsvInstance.generateCsv(mockData);
+  });
+
+  it("should retain order of headers when given as option", () => {
+    const options: Options = {
+      filename: "Test Csv 2",
+      useBom: true,
+      showLabels: true,
+      headers: ["name", "average", "age", "approved", "description"],
+    };
+
+    const exportToCsvInstance = new ExportToCsv(options);
+    const string = exportToCsvInstance.generateCsv(mockData, true);
+
+    const firstLine = string.split("\n")[0];
+    const keys = firstLine.split(",").map((s: string) => s.trim());
+
+    expect(keys).toEqual(options.headers);
   });
 });
 
