@@ -109,26 +109,21 @@ export class ExportToCsv {
       type: "text/" + FileType + ";charset=utf8;",
     });
 
-    if (navigator.msSaveBlob) {
-      let filename = this._options.filename.replace(/ /g, "_") + fileExtension;
-      navigator.msSaveBlob(blob, filename);
-    } else {
-      const attachmentType = this._options.useTextFile ? "text" : "csv";
-      let uri =
-        "data:attachment/" +
-        attachmentType +
-        ";charset=utf-8," +
-        encodeURI(this._csv);
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
+    const attachmentType = this._options.useTextFile ? "text" : "csv";
+    let uri =
+      "data:attachment/" +
+      attachmentType +
+      ";charset=utf-8," +
+      encodeURI(this._csv);
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
 
-      link.setAttribute("visibility", "hidden");
-      link.download = this._options.filename.replace(/ /g, "_") + fileExtension;
+    link.setAttribute("visibility", "hidden");
+    link.download = this._options.filename.replace(/ /g, "_") + fileExtension;
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   /**
