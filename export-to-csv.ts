@@ -3,6 +3,8 @@ export interface Options {
   fieldSeparator?: string;
   quoteStrings?: string;
   decimalSeparator?: string;
+  // TODO: `showLabels` is currently broken, but changing it would break
+  // expectations. Ideally should be a minor bump to fix, not a patch bump.
   showLabels?: boolean;
   showTitle?: boolean;
   title?: string;
