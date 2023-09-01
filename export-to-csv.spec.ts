@@ -34,7 +34,7 @@ describe("ExportToCsv", () => {
 
     const exportToCsvInstance = new ExportToCsv(options);
     const string = exportToCsvInstance.generateCsv(mockData, true);
-    expect(string).toBeTruthy(typeof string === "string");
+    expect(typeof string === "string").toBeTrue();
   });
 
   it("should use keys of first object in collection as headers", () => {
@@ -85,7 +85,7 @@ describe("ExportToCsv As A Text File", () => {
 
     const exportToCsvInstance = new ExportToCsv(options);
     const string = exportToCsvInstance.generateCsv(mockData, true);
-    expect(string).toBeTruthy(typeof string === "string");
+    expect(typeof string === "string").toBeTrue();
   });
 
   it("should use keys of first object in collection as headers", () => {
