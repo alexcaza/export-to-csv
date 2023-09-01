@@ -111,12 +111,6 @@ export class ExportToCsv {
       type: "text/" + FileType + ";charset=utf8;",
     });
 
-    const attachmentType = this._options.useTextFile ? "text" : "csv";
-    let uri =
-      "data:attachment/" +
-      attachmentType +
-      ";charset=utf-8," +
-      encodeURI(this._csv);
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
 
