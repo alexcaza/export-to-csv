@@ -1,7 +1,6 @@
 import { mkConfig } from "../config";
 import { download, generateCsv } from "../generator";
-import { unpack } from "../helpers";
-import { ConfigOptions } from "../types";
+import { ConfigOptions, unpack } from "../types";
 
 const mockData = [
   {
@@ -128,7 +127,7 @@ describe("ExportToCsv As A Text File", () => {
       pending("it should only initiate download when run in browser context");
     }
     const options: ConfigOptions = {
-      filename: "Test Csv 3",
+      filename: "Test CSV as Txt file",
       useTextFile: true,
       useBom: true,
       showColumnHeaders: true,
