@@ -6,11 +6,12 @@ export const pack = <T extends Newtype<any>>(value: T["value"]): T =>
 export const unpack = <T extends Newtype<any>>(newtype: T): T["value"] =>
   newtype as any as T["value"];
 
-/*
- * Convert CsvOutput to string.
+/**
  *
- * Useful if you need to dump just the string or manipulate
- * it outside of the context of this library.
+ * Convert CsvOutput => string for the typechecker.
+ *
+ * Useful if you need to take the return value and
+ * treat is as a string in the rest of your program.
  */
 export const asString = unpack<Newtype<string>>;
 
