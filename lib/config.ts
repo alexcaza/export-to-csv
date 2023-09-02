@@ -1,6 +1,6 @@
 import { WithDefaults, ConfigOptions } from "./types";
 
-const defaults: WithDefaults<ConfigOptions> = {
+export const defaults: WithDefaults<ConfigOptions> = {
   fieldSeparator: ",",
   decimalSeparator: ".",
   quoteStrings: '"',
