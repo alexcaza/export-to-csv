@@ -1,12 +1,7 @@
-import { ConfigOptions, byteOrderMark, endOfLine, mkConfig } from "./config";
+import { byteOrderMark, endOfLine, mkConfig } from "./config";
 import { CsvGenerationError, EmptyHeadersError } from "./errors";
-import { Newtype, formatData, pack, unpack } from "./helpers";
-
-type CsvOutput = Newtype<string>;
-
-type Result<R, E = Error> = R | E;
-
-type IO = void;
+import { formatData, pack, unpack } from "./helpers";
+import { CsvOutput, ConfigOptions, Result, IO } from "./types";
 
 const mkCsvOutput = pack<CsvOutput>;
 
@@ -72,7 +67,6 @@ export const generateCsv =
 export const download =
   (config: ConfigOptions) =>
   (csvOutput: CsvOutput): IO => {
-    // TODO: Launch browser download
     const withDefaults = mkConfig(config);
     const data = unpack(csvOutput);
     // Create CSV blob to download if requesting in the browser and the

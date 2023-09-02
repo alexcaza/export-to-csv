@@ -1,18 +1,4 @@
-type WithDefaults<T> = Required<T>;
-
-export type ConfigOptions = {
-  filename?: string;
-  fieldSeparator?: string;
-  quoteStrings?: string;
-  decimalSeparator?: string;
-  showColumnHeaders?: boolean;
-  showTitle?: boolean;
-  title?: string;
-  useTextFile?: boolean;
-  useBom?: boolean;
-  columnHeaders?: Array<string>;
-  useKeysAsHeaders?: boolean;
-};
+import { WithDefaults, ConfigOptions } from "./types";
 
 const defaults: WithDefaults<ConfigOptions> = {
   fieldSeparator: ",",
