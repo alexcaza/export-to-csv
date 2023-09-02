@@ -2,22 +2,19 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "module": "commonjs",
-        "target": "es5",
+        "target": "es6",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
         "declaration": true,
         "lib": [
             "dom",
-            "es2015.collection",
-            "es2015.promise",
-            "es5"
+            "es6"
         ],
         "moduleResolution": "node",
         "outDir": "./build"
     },
     "files": [
-        "export-to-csv.ts",
         "index.ts"
     ],
     "exclude": [
