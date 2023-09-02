@@ -1,40 +1,48 @@
 import { byteOrderMark, endOfLine, mkConfig } from "./config";
 import { CsvGenerationError, EmptyHeadersError } from "./errors";
 import { formatData, pack, unpack } from "./helpers";
-import { CsvOutput, ConfigOptions, IO, WithDefaults } from "./types";
+import {
+  CsvOutput,
+  ConfigOptions,
+  IO,
+  WithDefaults,
+  CsvRow,
+  Newtype,
+} from "./types";
 
 const mkCsvOutput = pack<CsvOutput>;
+const mkCsvRow = pack<CsvRow>;
 
 // TODO: Should these types deal with CsvOutput? It might make a better type guarantee
 // than string.
 const addBOM =
   (config: WithDefaults<ConfigOptions>) =>
-  (output: string): string =>
-    config.useBom ? output + byteOrderMark : output;
+  (output: CsvOutput): CsvOutput =>
+    config.useBom ? mkCsvOutput(unpack(output) + byteOrderMark) : output;
 
 const addTitle =
   (config: WithDefaults<ConfigOptions>) =>
-  (output: string): string =>
-    config.showTitle ? output + config.title : output;
+  (output: CsvOutput): CsvOutput =>
+    config.showTitle ? mkCsvOutput(unpack(output) + config.title) : output;
 
 const addEndOfLine =
-  (output: string) =>
-  (row: string): string =>
-    output + row + endOfLine;
+  (output: CsvOutput) =>
+  (row: CsvRow): CsvOutput =>
+    mkCsvOutput(unpack(output) + unpack(row) + endOfLine);
 
 const buildRow =
   (config: WithDefaults<ConfigOptions>) =>
-  (row: string, data: string): string =>
-    addFieldSeparator(config)(row + data);
+  (row: CsvRow, data: string): CsvRow =>
+    addFieldSeparator(config)(mkCsvRow(row + data));
 
 const addFieldSeparator =
   (config: WithDefaults<ConfigOptions>) =>
-  (output: string): string =>
-    output + config.fieldSeparator;
+  <T extends Newtype<any, string>>(output: T): T =>
+    pack<T>(unpack(output) + config.fieldSeparator);
 
 const addHeaders =
   (config: WithDefaults<ConfigOptions>, headers: Array<string>) =>
-  (output: string): string => {
+  (output: CsvOutput): CsvOutput => {
     if (!config.showColumnHeaders) {
       return output;
     }
@@ -45,12 +53,12 @@ const addHeaders =
       );
     }
 
-    let row = "";
+    let row = mkCsvRow("");
     for (let keyPos = 0; keyPos < headers.length; keyPos++) {
       row = buildRow(config)(row, headers[keyPos]);
     }
 
-    row = row.slice(0, -1);
+    row = mkCsvRow(unpack(row).slice(0, -1));
     return addEndOfLine(output)(row);
   };
 
@@ -60,17 +68,17 @@ const addBody =
     headers: Array<string>,
     bodyData: T,
   ) =>
-  (output: string): string => {
+  (output: CsvOutput): CsvOutput => {
     let body = output;
     for (var i = 0; i < bodyData.length; i++) {
-      let row = "";
+      let row = mkCsvRow("");
       for (let keyPos = 0; keyPos < headers.length; keyPos++) {
         const header = headers[keyPos];
         row = buildRow(config)(row, formatData(config, bodyData[i][header]));
       }
 
       // Remove trailing comma
-      row = row.slice(0, -1);
+      row = mkCsvRow(unpack(row).slice(0, -1));
       body = addEndOfLine(body)(row);
     }
 
@@ -85,20 +93,20 @@ export const generateCsv =
       ? Object.keys(data[0])
       : withDefaults.columnHeaders;
 
-    let output = "";
+    let output = mkCsvOutput("");
 
     output = addBOM(withDefaults)(output);
     output = addTitle(withDefaults)(output);
     output = addHeaders(withDefaults, headers)(output);
     output = addBody(withDefaults, headers, data)(output);
 
-    if (output.length < 1) {
+    if (unpack(output).length < 1) {
       throw new CsvGenerationError(
         "Output is empty. Is your data formatted correctly?",
       );
     }
 
-    return mkCsvOutput(output);
+    return output;
   };
 
 export const download =

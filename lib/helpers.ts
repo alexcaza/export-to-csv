@@ -1,10 +1,10 @@
 import { ConfigOptions, Newtype } from "./types";
 
-export const pack = <T extends Newtype<any>>(value: T["value"]): T =>
+export const pack = <T extends Newtype<any, any>>(value: T["_A"]): T =>
   value as any as T;
 
-export const unpack = <T extends Newtype<any>>(newtype: T): T["value"] =>
-  newtype as any as T["value"];
+export const unpack = <T extends Newtype<any, any>>(newtype: T): T["_A"] =>
+  newtype as any as T["_A"];
 
 /**
  *
@@ -13,7 +13,7 @@ export const unpack = <T extends Newtype<any>>(newtype: T): T["value"] =>
  * Useful if you need to take the return value and
  * treat is as a string in the rest of your program.
  */
-export const asString = unpack<Newtype<string>>;
+export const asString = unpack<Newtype<any, string>>;
 
 const isFloat = (input: any): boolean =>
   +input === input && (!isFinite(input) || Boolean(input % 1));
