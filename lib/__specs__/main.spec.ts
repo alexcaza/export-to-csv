@@ -1,7 +1,7 @@
-import { mkConfig } from "./lib/config";
-import { download, generateCsv } from "./lib/generator";
-import { unpack } from "./lib/helpers";
-import { ConfigOptions } from "./lib/types";
+import { mkConfig } from "../config";
+import { download, generateCsv } from "../generator";
+import { unpack } from "../helpers";
+import { ConfigOptions } from "../types";
 
 const mockData = [
   {
@@ -47,8 +47,6 @@ describe("ExportToCsv", () => {
     };
 
     const string = generateCsv(options)(mockData);
-
-    console.log("output:", string);
 
     const firstLine = unpack(string).split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
