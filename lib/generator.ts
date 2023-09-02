@@ -1,5 +1,5 @@
 import { mkConfig } from "./config";
-import { CsvGenerationError } from "./errors";
+import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors";
 import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers";
 import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types";
 
@@ -32,6 +32,15 @@ export const generateCsv =
 export const download =
   (config: ConfigOptions) =>
   (csvOutput: CsvOutput): IO => {
+    // Downloading is only supported in a browser environment.
+    // Node users can simply write the output from generateCsv
+    // to disk.
+    if (!window) {
+      throw new CsvDownloadEnvironmentError(
+        "Downloading only supported in a browser environment.",
+      );
+    }
+
     const withDefaults = mkConfig(config);
     const data = unpack(csvOutput);
 

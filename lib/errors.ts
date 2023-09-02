@@ -11,3 +11,10 @@ export class EmptyHeadersError extends Error {
     this.name = "EmptyHeadersError";
   }
 }
+
+export class CsvDownloadEnvironmentError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "CsvDownloadEnvironmentError";
+  }
+}
