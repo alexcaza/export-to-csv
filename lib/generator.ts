@@ -1,6 +1,6 @@
 import { byteOrderMark, endOfLine, mkConfig } from "./config";
 import { CsvGenerationError, EmptyHeadersError } from "./errors";
-import { formatData, pack, unpack } from "./helpers";
+import { formatData, pack, thread, unpack } from "./helpers";
 import {
   CsvOutput,
   ConfigOptions,
@@ -93,12 +93,13 @@ export const generateCsv =
       ? Object.keys(data[0])
       : withDefaults.columnHeaders;
 
-    let output = mkCsvOutput("");
-
-    output = addBOM(withDefaults)(output);
-    output = addTitle(withDefaults)(output);
-    output = addHeaders(withDefaults, headers)(output);
-    output = addBody(withDefaults, headers, data)(output);
+    let output = thread(
+      mkCsvOutput(""),
+      addBOM(withDefaults),
+      addTitle(withDefaults),
+      addHeaders(withDefaults, headers),
+      addBody(withDefaults, headers, data),
+    );
 
     if (unpack(output).length < 1) {
       throw new CsvGenerationError(

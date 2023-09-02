@@ -6,6 +6,9 @@ export const pack = <T extends Newtype<any, any>>(value: T["_A"]): T =>
 export const unpack = <T extends Newtype<any, any>>(newtype: T): T["_A"] =>
   newtype as any as T["_A"];
 
+export const thread = <T>(initialValue: T, ...fns: Array<Function>): T =>
+  fns.reduce((r, fn) => fn(r), initialValue);
+
 /**
  *
  * Convert CsvOutput => string for the typechecker.
