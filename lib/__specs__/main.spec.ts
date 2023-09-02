@@ -1,3 +1,4 @@
+import { describe, it, expect } from "@jest/globals";
 import { mkConfig } from "../config";
 import { download, generateCsv } from "../generator";
 import { ConfigOptions, unpack } from "../types";
@@ -35,7 +36,7 @@ describe("ExportToCsv", () => {
     };
 
     const string = generateCsv(options)(mockData);
-    expect(typeof string === "string").toBeTrue();
+    expect(typeof string === "string").toBeTruthy();
   });
 
   it("should use keys of first object in collection as headers", () => {
@@ -52,23 +53,6 @@ describe("ExportToCsv", () => {
 
     const mockDataKeys = Object.keys(mockData[0]);
     expect(keys).toEqual(mockDataKeys);
-  });
-
-  it("should initiate download through spawned browser", () => {
-    if (!window) {
-      pending("it should only initiate download when run in browser context");
-    }
-    const options: ConfigOptions = {
-      title: "Test Csv",
-      useBom: true,
-      useKeysAsHeaders: true,
-    };
-
-    const generator = generateCsv(options);
-    const downloader = download(options);
-
-    const output = generator(mockData);
-    downloader(output);
   });
 
   it("should retain order of headers when given as option", () => {
@@ -101,7 +85,7 @@ describe("ExportToCsv As A Text File", () => {
     };
 
     const string = generateCsv(options)(mockData);
-    expect(typeof string === "string").toBeTrue();
+    expect(typeof string === "string").toBeTruthy();
   });
 
   it("should use keys of first object in collection as headers", () => {
@@ -120,21 +104,5 @@ describe("ExportToCsv As A Text File", () => {
 
     const mockDataKeys = Object.keys(mockData[0]);
     expect(keys).toEqual(mockDataKeys);
-  });
-
-  it("should initiate download through spawned browser", () => {
-    if (!window) {
-      pending("it should only initiate download when run in browser context");
-    }
-    const options: ConfigOptions = {
-      filename: "Test CSV as Txt file",
-      useTextFile: true,
-      useBom: true,
-      showColumnHeaders: true,
-      useKeysAsHeaders: true,
-    };
-
-    const output = generateCsv(options)(mockData);
-    download(options)(output);
   });
 });

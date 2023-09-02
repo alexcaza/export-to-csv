@@ -1,12 +1,13 @@
+import { describe, expect, it, jest } from "@jest/globals";
 import { thread } from "../helpers";
 
 describe("Helpers", () => {
   describe("thread", () => {
     it("should call each function", () => {
       const val = "";
-      const one = () => {};
-      const two = () => {};
-      const three = () => {};
+      const one = jest.fn();
+      const two = jest.fn();
+      const three = jest.fn();
 
       thread(val, one, two, three);
 
@@ -16,15 +17,15 @@ describe("Helpers", () => {
     });
     it("should call each function with initial value", () => {
       const val = "test";
-      const one = jasmine.createSpy();
-      const two = jasmine.createSpy();
-      const three = jasmine.createSpy();
+      const one = jest.fn((x) => x);
+      const two = jest.fn((x) => x);
+      const three = jest.fn((x) => x);
 
       thread(val, one, two, three);
 
-      expect(one).toHaveBeenCalledOnceWith();
-      expect(two).toHaveBeenCalledOnceWith();
-      expect(three).toHaveBeenCalledOnceWith();
+      expect(one.mock.results[0].value).toBe(val);
+      expect(two.mock.results[0].value).toBe(val);
+      expect(three.mock.results[0].value).toBe(val);
     });
   });
 });
