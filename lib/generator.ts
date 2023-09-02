@@ -1,57 +1,96 @@
 import { byteOrderMark, endOfLine, mkConfig } from "./config";
 import { CsvGenerationError, EmptyHeadersError } from "./errors";
 import { formatData, pack, unpack } from "./helpers";
-import { CsvOutput, ConfigOptions, IO } from "./types";
+import { CsvOutput, ConfigOptions, IO, WithDefaults } from "./types";
 
 const mkCsvOutput = pack<CsvOutput>;
+
+// TODO: Should these types deal with CsvOutput? It might make a better type guarantee
+// than string.
+const addBOM =
+  (config: WithDefaults<ConfigOptions>) =>
+  (output: string): string =>
+    config.useBom ? output + byteOrderMark : output;
+
+const addTitle =
+  (config: WithDefaults<ConfigOptions>) =>
+  (output: string): string =>
+    config.showTitle ? output + config.title : output;
+
+const addEndOfLine =
+  (output: string) =>
+  (row: string): string =>
+    output + row + endOfLine;
+
+const buildRow =
+  (config: WithDefaults<ConfigOptions>) =>
+  (row: string, data: string): string =>
+    addFieldSeparator(config)(row + data);
+
+const addFieldSeparator =
+  (config: WithDefaults<ConfigOptions>) =>
+  (output: string): string =>
+    output + config.fieldSeparator;
+
+const addHeaders =
+  (config: WithDefaults<ConfigOptions>, headers: Array<string>) =>
+  (output: string): string => {
+    if (!config.showColumnHeaders) {
+      return output;
+    }
+
+    if (headers.length < 1) {
+      throw new EmptyHeadersError(
+        "Option to show headers but none supplied. Make sure there are keys in your collection or that you've supplied headers through the config options.",
+      );
+    }
+
+    let row = "";
+    for (let keyPos = 0; keyPos < headers.length; keyPos++) {
+      row = buildRow(config)(row, headers[keyPos]);
+    }
+
+    row = row.slice(0, -1);
+    return addEndOfLine(output)(row);
+  };
+
+const addBody =
+  <T extends Array<{ [k: string]: unknown }>>(
+    config: WithDefaults<ConfigOptions>,
+    headers: Array<string>,
+    bodyData: T,
+  ) =>
+  (output: string): string => {
+    let body = output;
+    for (var i = 0; i < bodyData.length; i++) {
+      let row = "";
+      for (let keyPos = 0; keyPos < headers.length; keyPos++) {
+        const header = headers[keyPos];
+        row = buildRow(config)(row, formatData(config, bodyData[i][header]));
+      }
+
+      // Remove trailing comma
+      row = row.slice(0, -1);
+      body = addEndOfLine(body)(row);
+    }
+
+    return body;
+  };
 
 export const generateCsv =
   (config: ConfigOptions) =>
   <T extends { [k: string | number]: unknown }>(data: Array<T>): CsvOutput => {
     const withDefaults = mkConfig(config);
-
-    let output = "";
-
-    if (withDefaults.useBom) {
-      output += byteOrderMark;
-    }
-
-    if (withDefaults.showTitle) {
-      output += withDefaults.title + endOfLine;
-    }
-
     const headers = withDefaults.useKeysAsHeaders
       ? Object.keys(data[0])
       : withDefaults.columnHeaders;
 
-    if (withDefaults.showColumnHeaders) {
-      if (withDefaults.useKeysAsHeaders && headers.length < 1) {
-        throw new EmptyHeadersError(
-          "No column headers supplied but option to manually defined selected. Please pass headers along with config. Your CSV will contain no headers otherwise.",
-        );
-      }
+    let output = "";
 
-      let row = "";
-      for (let keyPos = 0; keyPos < headers.length; keyPos++) {
-        row += headers[keyPos] + withDefaults.fieldSeparator;
-      }
-
-      row = row.slice(0, -1);
-      output += row + endOfLine;
-    }
-
-    for (var i = 0; i < data.length; i++) {
-      let row = "";
-      for (let keyPos = 0; keyPos < headers.length; keyPos++) {
-        const header = headers[keyPos];
-        row +=
-          formatData(withDefaults, data[i][header]) +
-          withDefaults.fieldSeparator;
-      }
-
-      row = row.slice(0, -1);
-      output += row + endOfLine;
-    }
+    output = addBOM(withDefaults)(output);
+    output = addTitle(withDefaults)(output);
+    output = addHeaders(withDefaults, headers)(output);
+    output = addBody(withDefaults, headers, data)(output);
 
     if (output.length < 1) {
       throw new CsvGenerationError(
