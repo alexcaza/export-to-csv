@@ -1,8 +1,22 @@
 import { mkConfig } from "./config";
-import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors";
+import {
+  CsvDownloadEnvironmentError,
+  CsvGenerationError,
+  EmptyHeadersError,
+} from "./errors";
 import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers";
 import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types";
 
+/**
+ *
+ * Generates CsvOutput data from JSON collection using
+ * ConfigOptions given.
+ *
+ * To comfortably use the data as a string around your
+ * application, look at {@link asString}.
+ *
+ * @throws {CsvGenerationError | EmptyHeadersError}
+ */
 export const generateCsv =
   (config: ConfigOptions) =>
   <T extends { [k: string | number]: unknown }>(data: Array<T>): CsvOutput => {
@@ -29,6 +43,15 @@ export const generateCsv =
     return output;
   };
 
+/**
+ *
+ * **Only supported in browser environment.**
+ *
+ * Will create a hidden anchor link in the page with the
+ * download attribute set to a blob version of the CsvOutput data.
+ *
+ * @throws {CsvDownloadEnvironmentError}
+ */
 export const download =
   (config: ConfigOptions) =>
   (csvOutput: CsvOutput): IO => {
