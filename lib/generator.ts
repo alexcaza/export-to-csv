@@ -70,7 +70,7 @@ export const download =
     // Create CSV blob to download if requesting in the browser and the
     // consumer doesn't set the shouldReturnCsv param
     const fileType = withDefaults.useTextFile ? "plain" : "csv";
-    const fileExtension = withDefaults.useTextFile ? ".txt" : ".csv";
+    const fileExtension = withDefaults.useTextFile ? "txt" : "csv";
     let blob = new Blob([data], {
       type: "text/" + fileType + ";charset=utf8;",
     });
@@ -79,7 +79,7 @@ export const download =
     link.href = URL.createObjectURL(blob);
 
     link.setAttribute("visibility", "hidden");
-    link.download = withDefaults.filename.replace(/ /g, "_") + fileExtension;
+    link.download = `${withDefaults.filename}.${fileExtension}`;
 
     document.body.appendChild(link);
     link.click();
