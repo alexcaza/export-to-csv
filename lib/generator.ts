@@ -11,6 +11,7 @@ export const generateCsv =
       ? Object.keys(data[0])
       : withDefaults.columnHeaders;
 
+    // Build csv output starting with an empty string
     let output = thread(
       mkCsvOutput(""),
       addBOM(withDefaults),
@@ -33,20 +34,24 @@ export const download =
   (csvOutput: CsvOutput): IO => {
     const withDefaults = mkConfig(config);
     const data = unpack(csvOutput);
-    // Create CSV blob to download if requesting in the browser and the
-    // consumer doesn't set the shouldReturnCsv param
+
+    // Create blob from CsvOutput either as text or csv file.
     const fileType = withDefaults.useTextFile ? "plain" : "csv";
     const fileExtension = withDefaults.useTextFile ? "txt" : "csv";
     let blob = new Blob([data], {
       type: `text/${fileType};charset=utf8;`,
     });
 
+    // Create link element in the browser and set the download
+    // attribute to the blob that was created.
     let link = document.createElement("a");
     link.download = `${withDefaults.filename}.${fileExtension}`;
     link.href = URL.createObjectURL(blob);
 
+    // Ensure the link isn't visible to the user or cause layout shifts.
     link.setAttribute("visibility", "hidden");
 
+    // Add to document body, click and remove it.
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
