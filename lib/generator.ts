@@ -72,14 +72,14 @@ export const download =
     const fileType = withDefaults.useTextFile ? "plain" : "csv";
     const fileExtension = withDefaults.useTextFile ? "txt" : "csv";
     let blob = new Blob([data], {
-      type: "text/" + fileType + ";charset=utf8;",
+      type: `text/${fileType};charset=utf8;`,
     });
 
     let link = document.createElement("a");
+    link.download = `${withDefaults.filename}.${fileExtension}`;
     link.href = URL.createObjectURL(blob);
 
     link.setAttribute("visibility", "hidden");
-    link.download = `${withDefaults.filename}.${fileExtension}`;
 
     document.body.appendChild(link);
     link.click();
