@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "noImplicitAny": true,
-        "module": "commonjs",
+        "module": "esnext",
         "target": "es6",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -9,10 +9,10 @@
         "declaration": true,
         "lib": [
             "dom",
-            "es6"
+            "es6",
         ],
         "moduleResolution": "node",
-        "outDir": "./build"
+        "outDir": "./output"
     },
     "files": [
         "index.ts"
