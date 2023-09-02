@@ -25,3 +25,12 @@ export interface CsvOutput
 export type CsvRow = Newtype<{ readonly CsvRow: unique symbol }, string>;
 
 export type IO = void;
+
+export const pack = <T extends Newtype<any, any>>(value: T["_A"]): T =>
+  value as any as T;
+
+export const unpack = <T extends Newtype<any, any>>(newtype: T): T["_A"] =>
+  newtype as any as T["_A"];
+
+export const mkCsvOutput = pack<CsvOutput>;
+export const mkCsvRow = pack<CsvRow>;
