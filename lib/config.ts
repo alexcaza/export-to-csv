@@ -7,7 +7,7 @@ const defaults: WithDefaults<ConfigOptions> = {
   showTitle: false,
   title: "My Generated Report",
   filename: "generated",
-  showColumnHeaders: false,
+  showColumnHeaders: true,
   useTextFile: false,
   useBom: true,
   columnHeaders: [],
