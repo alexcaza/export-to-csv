@@ -21,6 +21,4 @@ export type ConfigOptions = {
 
 export type CsvOutput = Newtype<string>;
 
-export type Result<R, E = Error> = R | E;
-
 export type IO = void;
