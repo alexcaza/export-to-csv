@@ -1,6 +1,6 @@
 {
   "name": "export-to-csv",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "Easily create CSV data from json collection",
   "repository": {
     "type": "git",
