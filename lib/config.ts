@@ -19,4 +19,4 @@ export const byteOrderMark = "\ufeff";
 
 export const mkConfig: (opts: ConfigOptions) => WithDefaults<ConfigOptions> = (
   opts,
-) => Object.assign({}, opts, defaults);
+) => Object.assign({}, defaults, opts);
