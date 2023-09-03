@@ -97,7 +97,7 @@ export const asString = unpack<Newtype<any, string>>;
 const isFloat = (input: any): boolean =>
   +input === input && (!isFinite(input) || Boolean(input % 1));
 
-export const formatData = (config: ConfigOptions, data: any): string => {
+const formatData = (config: ConfigOptions, data: any): string => {
   if (config.decimalSeparator === "locale" && isFloat(data)) {
     return data.toLocaleString();
   }
