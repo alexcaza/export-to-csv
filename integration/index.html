@@ -3,11 +3,22 @@
     <script type="module">
       import { mkConfig, generateCsv, download } from "/export-to-csv.js";
 
+      // Configs
       const csvConfig = mkConfig({ useKeysAsHeaders: true });
       const txtConfig = mkConfig({
         useKeysAsHeaders: true,
         useTextFile: true,
       });
+      const csvConfigCustomFilename = mkConfig({
+        useKeysAsHeaders: true,
+        filename: "Best CSV",
+      });
+      const txtConfigCustomFilename = mkConfig({
+        useKeysAsHeaders: true,
+        useTextFile: true,
+        filename: "Best CSV as Text",
+      });
+
       const mockData = [
         {
           name: "Rouky",
@@ -25,18 +36,29 @@
 
       const csv = generateCsv(csvConfig)(mockData);
       const txt = generateCsv(txtConfig)(mockData);
+      const csvCustomFilename = generateCsv(csvConfig)(mockData);
+      const txtCustomFilename = generateCsv(txtConfig)(mockData);
 
       const csvBtn = document.querySelector("#csv");
       const txtBtn = document.querySelector("#txt");
+      const csvBtnCustom = document.querySelector("#csv-custom");
+      const txtBtnCustom = document.querySelector("#txt-custom");
 
       csvBtn.addEventListener("click", () => download(csvConfig)(csv));
-
       txtBtn.addEventListener("click", () => download(txtConfig)(txt));
+      csvBtnCustom.addEventListener("click", () =>
+        download(csvConfigCustomFilename)(csvCustomFilename),
+      );
+      txtBtnCustom.addEventListener("click", () =>
+        download(txtConfigCustomFilename)(txtCustomFilename),
+      );
     </script>
   </head>
   <body>
     <h1>Export to CSV testing</h1>
     <button id="csv">Download as CSV</button>
     <button id="txt">Download as TXT</button>
+    <button id="csv-custom">Download as CSV (custom filename)</button>
+    <button id="txt-custom">Download as TXT (custom filename)</button>
   </body>
 </html>
