@@ -8,8 +8,7 @@
     "url": "https://github.com/alexcaza/export-to-csv.git"
   },
   "scripts": {
-    "build": "rm -rf build && tsc",
-    "roll": "rm -rf output && rollup -c rollup.config.mjs",
+    "build": "rm -rf output && rollup -c rollup.config.mjs",
     "test": "jest",
     "dev": "tsc --watch",
     "prepublishOnly": "tsc"
