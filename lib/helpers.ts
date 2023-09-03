@@ -110,7 +110,7 @@ const formatData = (config: ConfigOptions, data: any): string => {
     data = data.replace(/"/g, '""');
     if (
       config.quoteStrings ||
-      data.indexOf(",") > -1 ||
+      data.indexOf(config.fieldSeparator) > -1 ||
       data.indexOf("\n") > -1 ||
       data.indexOf("\r") > -1
     ) {
