@@ -13,7 +13,7 @@
     "e2e-server": "npx http-server ./integration -p 3000",
     "test": "jest",
     "dev": "tsc --watch",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "export-to-csv",
@@ -31,8 +31,8 @@
   "bugs": {
     "url": "https://github.com/alexcaza/export-to-csv/issues"
   },
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
+  "main": "./output/index.js",
+  "types": "./output/index.d.ts",
   "homepage": "https://github.com/alexcaza/export-to-csv#readme",
   "devDependencies": {
     "@babel/core": "^7.22.11",
