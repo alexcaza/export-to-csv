@@ -15,6 +15,7 @@ Thumbs.db
 test/
 coverage/
 build/
+output/
 /test-results/
 /playwright-report/
 /playwright/.cache/
