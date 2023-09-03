@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <script type="module">
+      import { mkConfig, generateCsv, download } from "../output/index.js";
+
+      const csvConfig = mkConfig({});
+      const txtConfig = mkConfig({
+        useTextFile: true,
+      });
+      const mockData = [
+        {
+          name: "Rouky",
+          date: "2023-09-01",
+          percentage: 0.4,
+          quoted: '"Pickles"',
+        },
+        {
+          name: "Keiko",
+          date: "2023-09-01",
+          percentage: 0.9,
+          quoted: '"Cactus"',
+        },
+      ];
+
+      const csv = generateCsv(csvConfig)(mockData);
+      const txt = generateCsv(txtConfig)(mockData);
+
+      const csvBtn = document.querySelector("#csv");
+      const txtBtn = document.querySelector("#txt");
+
+      csvBtn.addEventListener("click", () => download(csvConfig)(mockData));
+
+      txtBtn.addEventListener("click", () => download(txtConfig)(mockData));
+    </script>
+  </head>
+  <body>
+    <h1>Export to CSV testing</h1>
+    <button id="csv">Download as CSV</button>
+    <button id="txt">Download as TXT</button>
+  </body>
+</html>
