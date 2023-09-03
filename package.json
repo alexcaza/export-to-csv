@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "rm -rf output && rollup -c rollup.config.mjs",
-    "e2e": "rm -rf integration/export-to-csv.js && npm run build && cp output/index.js integration/export-to-csv.js && npx http-server ./integration -p 3000",
+    "e2e": "rm -rf integration/export-to-csv.js && npm run build && cp output/index.js integration/export-to-csv.js && playwright test",
+    "e2e-server": "npx http-server ./integration -p 3000",
     "test": "jest",
     "dev": "tsc --watch",
     "prepublishOnly": "tsc"

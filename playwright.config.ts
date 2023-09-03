@@ -70,7 +70,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run start",
+    command: "npm run e2e-server",
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
   },
