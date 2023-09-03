@@ -1,10 +1,11 @@
 <html>
   <head>
     <script type="module">
-      import { mkConfig, generateCsv, download } from "../output/index.js";
+      import { mkConfig, generateCsv, download } from "/export-to-csv.js";
 
-      const csvConfig = mkConfig({});
+      const csvConfig = mkConfig({ useKeysAsHeaders: true });
       const txtConfig = mkConfig({
+        useKeysAsHeaders: true,
         useTextFile: true,
       });
       const mockData = [
@@ -28,9 +29,9 @@
       const csvBtn = document.querySelector("#csv");
       const txtBtn = document.querySelector("#txt");
 
-      csvBtn.addEventListener("click", () => download(csvConfig)(mockData));
+      csvBtn.addEventListener("click", () => download(csvConfig)(csv));
 
-      txtBtn.addEventListener("click", () => download(txtConfig)(mockData));
+      txtBtn.addEventListener("click", () => download(txtConfig)(txt));
     </script>
   </head>
   <body>
