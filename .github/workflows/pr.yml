@@ -21,4 +21,4 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm ci
       - run: npm run test
-      - run: npm run e2e
+      - run: npm run e2e-ci
