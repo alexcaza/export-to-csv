@@ -3,7 +3,8 @@ import { WithDefaults, ConfigOptions } from "./types";
 export const defaults: WithDefaults<ConfigOptions> = {
   fieldSeparator: ",",
   decimalSeparator: ".",
-  quoteStrings: '"',
+  quoteStrings: true,
+  quoteCharacter: '"',
   showTitle: false,
   title: "My Generated Report",
   filename: "generated",

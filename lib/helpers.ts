@@ -97,7 +97,7 @@ export const asString = unpack<Newtype<any, string>>;
 const isFloat = (input: any): boolean =>
   +input === input && (!isFinite(input) || Boolean(input % 1));
 
-const formatData = (config: ConfigOptions, data: any): string => {
+export const formatData = (config: ConfigOptions, data: any): string => {
   if (config.decimalSeparator === "locale" && isFloat(data)) {
     return data.toLocaleString();
   }
@@ -107,16 +107,16 @@ const formatData = (config: ConfigOptions, data: any): string => {
   }
 
   if (typeof data === "string") {
-    data = data.replace(/"/g, '""');
+    let val = data;
     if (
       config.quoteStrings ||
       data.indexOf(config.fieldSeparator) > -1 ||
       data.indexOf("\n") > -1 ||
       data.indexOf("\r") > -1
     ) {
-      data = config.quoteStrings + data + config.quoteStrings;
+      val = config.quoteCharacter + data + config.quoteCharacter;
     }
-    return data;
+    return val;
   }
 
   if (typeof data === "boolean") {

@@ -7,6 +7,7 @@ import {
   addHeaders,
   addTitle,
   buildRow,
+  formatData,
   thread,
 } from "../helpers";
 import { byteOrderMark, endOfLine, mkConfig } from "../config";
@@ -175,7 +176,64 @@ describe("Helpers", () => {
       )(mkCsvOutput(""));
       expect(nameAndDate).toEqual('"rouky","2023-09-02"' + endOfLine);
     });
+  });
 
-    // TODO: Properly test various formatting cases present in formatData
+  describe("formatData", () => {
+    it("should use locale string for decimals if config set", () => {
+      const config = mkConfig({
+        decimalSeparator: "locale",
+      });
+      const formatted = formatData(config, 0.6);
+      expect(formatted).toEqual((0.6).toLocaleString());
+    });
+
+    it("should use custom decimal separator if set", () => {
+      const config = mkConfig({
+        decimalSeparator: "|",
+      });
+      const formatted = formatData(config, 0.6);
+      expect(formatted).toEqual("0|6");
+    });
+
+    it("should properly quote strings that may conflict with generation", () => {
+      // Default case should quote stings
+      let config = mkConfig({});
+      const defaultQuote = formatData(config, "test");
+      expect(defaultQuote).toEqual('"test"');
+
+      // Use custom quote strings
+      config = mkConfig({ quoteCharacter: "^" });
+      const customQuotes = formatData(config, "test");
+      expect(customQuotes).toEqual("^test^");
+
+      // Disable quoting strings
+      config = mkConfig({ quoteStrings: false });
+      const disableQuotes = formatData(config, "test");
+      expect(disableQuotes).toEqual("test");
+    });
+
+    describe("force quote problem characters", () => {
+      it("should wrap problem data in quoteStrings", () => {
+        // Quote field separator
+        let config = mkConfig({ quoteStrings: false });
+        const customQuote = formatData(config, ",");
+        expect(customQuote).toEqual('","');
+
+        // Wrap new line
+        config = mkConfig({ quoteStrings: false });
+        const wrapNewLine = formatData(config, "test\n");
+        expect(wrapNewLine).toEqual('"test\n"');
+
+        // Wrap carrage return
+        config = mkConfig({ quoteStrings: false });
+        const wrapCR = formatData(config, "test\r");
+        expect(wrapCR).toEqual('"test\r"');
+
+        // Force quote with custom character
+        config = mkConfig({ quoteStrings: false, quoteCharacter: "|" });
+        const wrapCRWithCustom = formatData(config, "test\r");
+        expect(wrapCRWithCustom).toEqual("|test\r|");
+      });
+    });
   });
 });

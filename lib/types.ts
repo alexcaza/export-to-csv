@@ -8,7 +8,8 @@ export type WithDefaults<T> = Required<T>;
 export type ConfigOptions = {
   filename?: string;
   fieldSeparator?: string;
-  quoteStrings?: string;
+  quoteStrings?: boolean;
+  quoteCharacter?: string;
   decimalSeparator?: string;
   showColumnHeaders?: boolean;
   showTitle?: boolean;
