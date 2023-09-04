@@ -8,6 +8,7 @@ Thumbs.db
 
 # Git
 .git
+.github
 
 # TypeScript source files, apart generated type definitions
 *.ts
