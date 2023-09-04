@@ -1,9 +1,13 @@
 # Node generated files
 node_modules
 npm-debug.log
+
 # OS generated files
 Thumbs.db
 .DS_Store
+
+# Git
+.git
 
 # TypeScript source files, apart generated type definitions
 *.ts
@@ -12,8 +16,19 @@ Thumbs.db
 # Other generated files
 *.spec.*
 *.map
+integration
+lib/**/*.d.ts
+build
+
+# Editor files
+.prettierrc.json
+.todo
 
 # Other build-related files
 .travis.yml
 karma.*
 tsconfig.*
+*.config.*
+playwright*
+test-results
+coverage
