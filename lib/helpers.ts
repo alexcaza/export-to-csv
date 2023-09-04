@@ -120,7 +120,10 @@ const formatData = (config: ConfigOptions, data: any): string => {
   }
 
   if (typeof data === "boolean") {
-    return data ? "TRUE" : "FALSE";
+    // Convert to string to use as lookup in config
+    const asStr = data ? "true" : "false";
+    // Return the custom boolean display if set
+    return config.boolDisplay[asStr];
   }
   return data;
 };

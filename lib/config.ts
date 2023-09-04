@@ -12,6 +12,7 @@ export const defaults: WithDefaults<ConfigOptions> = {
   useBom: true,
   columnHeaders: [],
   useKeysAsHeaders: false,
+  boolDisplay: { true: "TRUE", false: "FALSE" },
 };
 
 export const endOfLine = "\r\n";
