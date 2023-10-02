@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it, jest } from "bun:test";
 import {
   addBOM,
   addBody,
@@ -132,7 +132,7 @@ describe("Helpers", () => {
           showColumnHeaders: true,
           useKeysAsHeaders: true,
         });
-        expect(() => addHeaders(config, [])(mkCsvOutput(""))).toThrowError(
+        expect(() => addHeaders(config, [])(mkCsvOutput(""))).toThrow(
           EmptyHeadersError,
         );
       });
@@ -142,7 +142,7 @@ describe("Helpers", () => {
           showColumnHeaders: true,
           useKeysAsHeaders: false,
         });
-        expect(() => addHeaders(config, [])(mkCsvOutput(""))).toThrowError(
+        expect(() => addHeaders(config, [])(mkCsvOutput(""))).toThrow(
           EmptyHeadersError,
         );
       });

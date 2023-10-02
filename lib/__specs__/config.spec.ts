@@ -1,4 +1,4 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "bun:test";
 import { defaults, mkConfig } from "../config";
 
 describe("mkConfig", () => {
