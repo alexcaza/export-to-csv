@@ -17,7 +17,7 @@
         "strict": true,
         "forceConsistentCasingInFileNames": true,
         "composite": true,
-        "downlevvelIteration": true,
+        "downlevelIteration": true,
     },
     "files": [
         "index.ts"
