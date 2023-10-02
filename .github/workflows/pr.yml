@@ -13,12 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run unit and e2e tests
-        uses: actions/setup-node@v3
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run test
-      - run: npm run e2e-ci
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run test
+      - run: bun run e2e-ci
       - uses: actions/upload-artifact@v3
         if: always()
         with:
