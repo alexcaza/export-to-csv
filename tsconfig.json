@@ -2,21 +2,27 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "module": "esnext",
-        "target": "es6",
+        "target": "esnext",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
         "declaration": true,
+        "types": ["bun-types"],
         "lib": [
-            "dom",
-            "es6",
+            "esnext",
         ],
-        "moduleResolution": "node",
-        "outDir": "./output"
+        "moduleResolution": "bundler",
+        "moduleDetection": "force",
+        "outDir": "./output",
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "composite": true,
+        "downlevvelIteration": true,
     },
     "files": [
         "index.ts"
     ],
+    "include": ["lib/**/*"],
     "exclude": [
         "node_modules"
     ]

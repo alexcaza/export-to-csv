@@ -1,6 +1,6 @@
-import { describe, it, expect } from "@jest/globals";
+import { describe, it, expect } from "bun:test";
 import { mkConfig } from "../config";
-import { download, generateCsv } from "../generator";
+import { generateCsv } from "../generator";
 import { ConfigOptions, unpack } from "../types";
 
 const mockData = [

@@ -1,9 +1,9 @@
+// Required for `window` to work. Since `types` is set in `tsconfig.json`
+// `lib` no longer works
+/// <reference lib="dom" />
+
 import { mkConfig } from "./config";
-import {
-  CsvDownloadEnvironmentError,
-  CsvGenerationError,
-  EmptyHeadersError,
-} from "./errors";
+import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors";
 import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers";
 import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types";
 
