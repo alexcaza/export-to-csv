@@ -110,7 +110,7 @@ export const formatData = (config: ConfigOptions, data: any): string => {
     let val = data;
     if (
       config.quoteStrings ||
-      data.indexOf(config.fieldSeparator) > -1 ||
+      (config.fieldSeparator && data.indexOf(config.fieldSeparator) > -1) ||
       data.indexOf("\n") > -1 ||
       data.indexOf("\r") > -1
     ) {
@@ -119,7 +119,7 @@ export const formatData = (config: ConfigOptions, data: any): string => {
     return val;
   }
 
-  if (typeof data === "boolean") {
+  if (typeof data === "boolean" && config.boolDisplay) {
     // Convert to string to use as lookup in config
     const asStr = data ? "true" : "false";
     // Return the custom boolean display if set
