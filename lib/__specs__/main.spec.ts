@@ -105,4 +105,21 @@ describe("ExportToCsv As A Text File", () => {
     const mockDataKeys = Object.keys(mockData[0]);
     expect(keys).toEqual(mockDataKeys);
   });
+
+  it("should only use columns in columnHeaders", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useTextFile: true,
+      useBom: true,
+      showColumnHeaders: true,
+      columnHeaders: ["name", "age"],
+    };
+
+    const output = generateCsv(options)(mockData);
+
+    const firstLine = unpack(output).split("\n")[0];
+    const keys = firstLine.split(",").map((s: string) => s.trim());
+
+    expect(keys).toEqual(["name", "age"]);
+  });
 });
