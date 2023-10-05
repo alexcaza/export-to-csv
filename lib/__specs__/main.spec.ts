@@ -65,7 +65,7 @@ describe("ExportToCsv", () => {
 
     const withDefaults = mkConfig(options);
 
-    const output = generateCsv(options)(mockData);
+    const output = generateCsv(withDefaults)(mockData);
 
     const firstLine = unpack(output).split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
@@ -121,5 +121,32 @@ describe("ExportToCsv As A Text File", () => {
     const keys = firstLine.split(",").map((s: string) => s.trim());
 
     expect(keys).toEqual(["name", "age"]);
+  });
+
+  it("should allow only headers to be generated", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useTextFile: true,
+      useBom: false,
+      showColumnHeaders: true,
+      columnHeaders: ["name", "age"],
+    };
+
+    const output = generateCsv(options)([]);
+
+    expect(output).toEqual("name,age\r\n");
+  });
+
+  it("should throw when no data supplied", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useTextFile: true,
+      useBom: false,
+      showColumnHeaders: false,
+    };
+
+    expect(() => {
+      generateCsv(options)([]);
+    }).toThrow();
   });
 });
