@@ -19,6 +19,7 @@ export type ConfigOptions = {
   columnHeaders?: Array<string>;
   useKeysAsHeaders?: boolean;
   boolDisplay?: { true: string; false: string };
+  replaceUndefinedWith?: string | boolean | null;
 };
 
 export interface CsvOutput

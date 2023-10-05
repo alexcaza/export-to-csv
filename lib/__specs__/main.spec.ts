@@ -149,4 +149,43 @@ describe("ExportToCsv As A Text File", () => {
       generateCsv(options)([]);
     }).toThrow();
   });
+
+  it("should allow null values", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+    };
+
+    const output = generateCsv(options)([
+      {
+        "non-null": 24,
+        nullish: null,
+      },
+    ]);
+
+    expect(output).toBe("non-null,nullish\r\n24,null\r\n");
+  });
+
+  it("should convert undefined to empty string by default", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+    };
+
+    const output = generateCsv(options)([
+      {
+        car: "toyota",
+        color: "blue",
+      },
+      {
+        car: "chevrolet",
+      },
+    ]);
+
+    expect(output).toBe('car,color\r\n"toyota","blue"\r\n"chevrolet",""\r\n');
+  });
 });
