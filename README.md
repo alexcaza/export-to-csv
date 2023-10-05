@@ -20,6 +20,8 @@ You can easily use this library in JavaScript as well. The bundle is using ES6 m
 
 You can also look at the [integration tests](integration/index.html) for browser/JS use, and the [unit tests](lib/__specs__) to understand how the library functions.
 
+### In-browser
+
 ```typescript
 import { mkConfig, generateCsv, download } from "export-to-csv";
 
@@ -52,6 +54,44 @@ const csvBtn = document.querySelector("#csv");
 // `download` takes `csvConfig` and the generated `CsvOutput`
 // from `generateCsv`.
 csvBtn.addEventListener("click", () => download(csvConfig)(csv));
+```
+
+### Node.js
+
+```typescript
+import { mkConfig, generateCsv, asString } from "./output/index.js";
+import { writeFile } from "node:fs";
+import { Buffer } from "node:buffer";
+
+// mkConfig merges your options with the defaults
+// and returns WithDefaults<ConfigOptions>
+const csvConfig = mkConfig({ useKeysAsHeaders: true });
+
+const mockData = [
+  {
+    name: "Rouky",
+    date: "2023-09-01",
+    percentage: 0.4,
+    quoted: '"Pickles"',
+  },
+  {
+    name: "Keiko",
+    date: "2023-09-01",
+    percentage: 0.9,
+    quoted: '"Cactus"',
+  },
+];
+
+// Converts your Array<Object> to a CsvOutput string based on the configs
+const csv = generateCsv(csvConfig)(mockData);
+const filename = `${csvConfig.filename}.csv`;
+const csvBuffer = new Uint8Array(Buffer.from(asString(csv)));
+
+// Write the csv file to disk
+writeFile(filename, csvBuffer, (err) => {
+  if (err) throw err;
+  console.log("file saved: ", filename);
+});
 ```
 
 ## API
