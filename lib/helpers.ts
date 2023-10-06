@@ -55,7 +55,7 @@ export const addHeaders =
 
     let row = mkCsvRow("");
     for (let keyPos = 0; keyPos < headers.length; keyPos++) {
-      row = buildRow(config)(row, headers[keyPos]);
+      row = buildRow(config)(row, formatData(config, headers[keyPos]));
     }
 
     row = mkCsvRow(unpack(row).slice(0, -1));
