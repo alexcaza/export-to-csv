@@ -14,6 +14,7 @@ export const defaults: WithDefaults<ConfigOptions> = {
   columnHeaders: [],
   useKeysAsHeaders: false,
   boolDisplay: { true: "TRUE", false: "FALSE" },
+  replaceUndefinedWith: "",
 };
 
 export const endOfLine = "\r\n";

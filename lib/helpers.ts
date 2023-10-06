@@ -55,7 +55,7 @@ export const addHeaders =
 
     let row = mkCsvRow("");
     for (let keyPos = 0; keyPos < headers.length; keyPos++) {
-      row = buildRow(config)(row, headers[keyPos]);
+      row = buildRow(config)(row, formatData(config, headers[keyPos]));
     }
 
     row = mkCsvRow(unpack(row).slice(0, -1));
@@ -74,7 +74,11 @@ export const addBody =
       let row = mkCsvRow("");
       for (let keyPos = 0; keyPos < headers.length; keyPos++) {
         const header = headers[keyPos];
-        row = buildRow(config)(row, formatData(config, bodyData[i][header]));
+        const data =
+          typeof bodyData[i][header] === "undefined"
+            ? config.replaceUndefinedWith
+            : bodyData[i][header];
+        row = buildRow(config)(row, formatData(config, data));
       }
 
       // Remove trailing comma
