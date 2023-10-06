@@ -20,6 +20,8 @@ Thumbs.db
 integration
 lib/**/*.d.ts
 build
+*.lock
+bun.lockb
 
 # Editor files
 .prettierrc.json
