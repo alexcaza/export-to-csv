@@ -151,12 +151,12 @@ describe("Helpers", () => {
         const nameAndDate = addHeaders(config, ["name", "date"])(
           mkCsvOutput(""),
         );
-        expect(nameAndDate).toEqual("name,date" + endOfLine);
+        expect(nameAndDate).toEqual('"name","date"' + endOfLine);
 
         const dateAndCity = addHeaders(config, ["date", "city"])(
           mkCsvOutput(""),
         );
-        expect(dateAndCity).toEqual("date,city" + endOfLine);
+        expect(dateAndCity).toEqual('"date","city"' + endOfLine);
       });
     });
   });
