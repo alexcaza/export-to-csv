@@ -5,6 +5,8 @@ export type Newtype<URI, A> = {
 
 export type WithDefaults<T> = Required<T>;
 
+export type ColumnHeader = string | { key: string; displayLabel: string };
+
 export type ConfigOptions = {
   filename?: string;
   fieldSeparator?: string;
@@ -16,14 +18,20 @@ export type ConfigOptions = {
   title?: string;
   useTextFile?: boolean;
   useBom?: boolean;
-  columnHeaders?: Array<string>;
+  columnHeaders?: Array<ColumnHeader>;
   useKeysAsHeaders?: boolean;
   boolDisplay?: { true: string; false: string };
   replaceUndefinedWith?: string | boolean | null;
 };
 
-export interface CsvOutput
-  extends Newtype<{ readonly CsvOutput: unique symbol }, string> {}
+export type HeaderKey = Newtype<{ readonly HeaderKey: unique symbol }, string>;
+
+export type HeaderDisplayLabel = Newtype<
+  { readonly HeaderDisplayLabel: unique symbol },
+  string
+>;
+
+export type CsvOutput = Newtype<{ readonly CsvOutput: unique symbol }, string>;
 
 export type CsvRow = Newtype<{ readonly CsvRow: unique symbol }, string>;
 
@@ -37,3 +45,5 @@ export const unpack = <T extends Newtype<any, any>>(newtype: T): T["_A"] =>
 
 export const mkCsvOutput = pack<CsvOutput>;
 export const mkCsvRow = pack<CsvRow>;
+export const mkHeaderKey = pack<HeaderKey>;
+export const mkHeaderDisplayLabel = pack<HeaderDisplayLabel>;
