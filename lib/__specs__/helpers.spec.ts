@@ -159,6 +159,19 @@ describe("Helpers", () => {
         expect(dateAndCity).toEqual('"date","city"' + endOfLine);
       });
     });
+
+    describe("pretty header mappings", () => {
+      it("should allow columnHeaders to contain objects with a display label", () => {
+        const config = mkConfig({
+          columnHeaders: ["name", { key: "date", displayLabel: "Date" }],
+        });
+        const nameAndDate = addHeaders(config, [
+          "name",
+          { key: "date", displayLabel: "Date" },
+        ])(mkCsvOutput(""));
+        expect(nameAndDate).toEqual('"name","Date"' + endOfLine);
+      });
+    });
   });
 
   describe("addBody", () => {
@@ -167,6 +180,16 @@ describe("Helpers", () => {
       const nameAndDate = addBody(
         config,
         ["name", "date"],
+        [{ name: "rouky", date: "2023-09-02" }],
+      )(mkCsvOutput(""));
+      expect(nameAndDate).toEqual('"rouky","2023-09-02"' + endOfLine);
+    });
+
+    it("should build csv body with pretty headers", () => {
+      const config = mkConfig({});
+      const nameAndDate = addBody(
+        config,
+        ["name", { key: "date", displayLabel: "Date" }],
         [{ name: "rouky", date: "2023-09-02" }],
       )(mkCsvOutput(""));
       expect(nameAndDate).toEqual('"rouky","2023-09-02"' + endOfLine);

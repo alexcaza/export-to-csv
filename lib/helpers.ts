@@ -1,16 +1,33 @@
 import { byteOrderMark, endOfLine } from "./config";
 import { EmptyHeadersError } from "./errors";
 import {
+  ColumnHeader,
   ConfigOptions,
   CsvOutput,
   CsvRow,
+  HeaderDisplayLabel,
+  HeaderKey,
   Newtype,
   WithDefaults,
   mkCsvOutput,
   mkCsvRow,
+  mkHeaderDisplayLabel,
+  mkHeaderKey,
   pack,
   unpack,
 } from "./types";
+
+const getHeaderKey = (columnHeader: ColumnHeader): HeaderKey =>
+  typeof columnHeader === "object"
+    ? mkHeaderKey(columnHeader.key)
+    : mkHeaderKey(columnHeader);
+
+const getHeaderDisplayLabel = (
+  columnHeader: ColumnHeader,
+): HeaderDisplayLabel =>
+  typeof columnHeader === "object"
+    ? mkHeaderDisplayLabel(columnHeader.displayLabel)
+    : mkHeaderDisplayLabel(columnHeader);
 
 export const thread = <T>(initialValue: T, ...fns: Array<Function>): T =>
   fns.reduce((r, fn) => fn(r), initialValue);
@@ -41,7 +58,7 @@ export const addFieldSeparator =
     pack<T>(unpack(output) + config.fieldSeparator);
 
 export const addHeaders =
-  (config: WithDefaults<ConfigOptions>, headers: Array<string>) =>
+  (config: WithDefaults<ConfigOptions>, headers: Array<ColumnHeader>) =>
   (output: CsvOutput): CsvOutput => {
     if (!config.showColumnHeaders) {
       return output;
@@ -55,7 +72,8 @@ export const addHeaders =
 
     let row = mkCsvRow("");
     for (let keyPos = 0; keyPos < headers.length; keyPos++) {
-      row = buildRow(config)(row, formatData(config, headers[keyPos]));
+      const header = getHeaderDisplayLabel(headers[keyPos]);
+      row = buildRow(config)(row, formatData(config, header));
     }
 
     row = mkCsvRow(unpack(row).slice(0, -1));
@@ -65,7 +83,7 @@ export const addHeaders =
 export const addBody =
   <T extends Array<{ [k: string]: unknown }>>(
     config: WithDefaults<ConfigOptions>,
-    headers: Array<string>,
+    headers: Array<ColumnHeader>,
     bodyData: T,
   ) =>
   (output: CsvOutput): CsvOutput => {
@@ -73,11 +91,11 @@ export const addBody =
     for (var i = 0; i < bodyData.length; i++) {
       let row = mkCsvRow("");
       for (let keyPos = 0; keyPos < headers.length; keyPos++) {
-        const header = headers[keyPos];
+        const header = getHeaderKey(headers[keyPos]);
         const data =
-          typeof bodyData[i][header] === "undefined"
+          typeof bodyData[i][unpack(header)] === "undefined"
             ? config.replaceUndefinedWith
-            : bodyData[i][header];
+            : bodyData[i][unpack(header)];
         row = buildRow(config)(row, formatData(config, data));
       }
 
