@@ -19,10 +19,17 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run test
       - run: bun run e2e-ci
-      - run: bunx prettier -c "'lib/**/*.ts' 'index.ts' 'integration/**/*.ts'"
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+    name: Format check
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run prettier to check formatting of files
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - run: bunx prettier -c "'lib/**/*.ts' 'index.ts' 'integration/**/*.ts'"
