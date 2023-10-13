@@ -34,4 +34,5 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-      - run: bunx prettier -c "'lib/**/*.ts' 'index.ts' 'integration/**/*.ts'"
+      - run: bun install --frozen-lockfile
+      - run: bunx prettier -c "."

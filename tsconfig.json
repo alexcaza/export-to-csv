@@ -1,29 +1,23 @@
 {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "module": "esnext",
-        "target": "esnext",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true,
-        "declaration": true,
-        "types": ["bun-types"],
-        "lib": [
-            "esnext",
-        ],
-        "moduleResolution": "bundler",
-        "moduleDetection": "force",
-        "outDir": "./output",
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "composite": true,
-        "downlevelIteration": true,
-    },
-    "files": [
-        "index.ts"
-    ],
-    "include": ["lib/**/*"],
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "esnext",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "declaration": true,
+    "types": ["bun-types"],
+    "lib": ["esnext"],
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "outDir": "./output",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "downlevelIteration": true
+  },
+  "files": ["index.ts"],
+  "include": ["lib/**/*"],
+  "exclude": ["node_modules"]
 }
