@@ -13,6 +13,7 @@
     "e2e-ci": "rm -rf integration/export-to-csv.js && bun run build && cp output/index.js integration/export-to-csv.js && bunx playwright install --with-deps && playwright test",
     "e2e-server": "bunx http-server ./integration -p 3000",
     "test": "bun test lib/__specs__/",
+    "format": "bunx prettier --write '.'",
     "prepublishOnly": "bun run build"
   },
   "keywords": [
