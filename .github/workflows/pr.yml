@@ -25,6 +25,7 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+  format:
     name: Format check
     steps:
       - uses: actions/checkout@v3
