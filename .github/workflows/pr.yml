@@ -27,6 +27,7 @@ jobs:
           retention-days: 30
   format:
     name: Format check
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Run prettier to check formatting of files
