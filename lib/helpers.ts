@@ -133,10 +133,14 @@ export const formatData = (config: ConfigOptions, data: any): string => {
     if (
       config.quoteStrings ||
       (config.fieldSeparator && data.indexOf(config.fieldSeparator) > -1) ||
+      (config.quoteCharacter && data.indexOf(config.quoteCharacter) > -1) ||
       data.indexOf("\n") > -1 ||
       data.indexOf("\r") > -1
     ) {
-      val = config.quoteCharacter + data + config.quoteCharacter;
+      val =
+        config.quoteCharacter +
+        escapeDoubleQuotes(data, config.quoteCharacter) +
+        config.quoteCharacter;
     }
     return val;
   }
@@ -149,3 +153,17 @@ export const formatData = (config: ConfigOptions, data: any): string => {
   }
   return data;
 };
+
+/**
+ * If double-quotes are used to enclose fields, then a double-quote
+ * appearing inside a field must be escaped by preceding it with
+ * another double quote.
+ *
+ * See https://www.rfc-editor.org/rfc/rfc4180
+ */
+function escapeDoubleQuotes(data: string, quoteCharacter?: string): string {
+  if (quoteCharacter == '"' && data.indexOf('"') > -1) {
+    return data.replace(/"/g, '""');
+  }
+  return data;
+}
