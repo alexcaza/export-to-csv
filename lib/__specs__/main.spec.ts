@@ -196,6 +196,44 @@ describe("ExportToCsv", () => {
     );
   });
 
+  it("should escape double quotes when quote is double quote", () => {
+    const options: ConfigOptions = {
+      quoteCharacter: '"',
+      filename: "Test Csv 2",
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+    };
+
+    const output = generateCsv(options)([
+      {
+        "escape-it": 24,
+        song: 'Mack "The Knife"',
+      },
+    ]);
+
+    expect(output).toBe('"escape-it","song"\r\n24,"Mack ""The Knife"""\r\n');
+  });
+
+  it("should not escape double quotes when quote is not double quote", () => {
+    const options: ConfigOptions = {
+      quoteCharacter: "'",
+      filename: "Test Csv 2",
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+    };
+
+    const output = generateCsv(options)([
+      {
+        "escape-it": 24,
+        song: 'Mack "The Knife"',
+      },
+    ]);
+
+    expect(output).toBe("'escape-it','song'\r\n24,'Mack \"The Knife\"'\r\n");
+  });
+
   it("should properly quote headers", () => {
     const options: ConfigOptions = {
       filename: "Test Csv 2",
