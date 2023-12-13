@@ -59,7 +59,7 @@ csvBtn.addEventListener("click", () => download(csvConfig)(csv));
 ### Node.js
 
 ```typescript
-import { mkConfig, generateCsv, asString } from "./output/index.js";
+import { mkConfig, generateCsv, asString } from "export-to-csv";
 import { writeFile } from "node:fs";
 import { Buffer } from "node:buffer";
 
