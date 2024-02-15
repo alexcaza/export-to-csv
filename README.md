@@ -16,7 +16,7 @@ npm install --save export-to-csv
 
 This library was written with TypeScript in mind, so the examples will be in TS.
 
-You can easily use this library in JavaScript as well. The bundle is using ES6 modules, which all modern browsers support.
+You can easily use this library in JavaScript as well. The bundle uses ES modules, which all modern browsers support.
 
 You can also look at the [integration tests](integration/index.html) for browser/JS use, and the [unit tests](lib/__specs__) to understand how the library functions.
 
