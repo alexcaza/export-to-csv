@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { defaults, mkConfig } from "../config";
+import { defaults, mkConfig } from "../config.ts";
 
 describe("mkConfig", () => {
   it("should properly set defaults when empty", () => {

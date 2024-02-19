@@ -1,4 +1,4 @@
-import { WithDefaults, ConfigOptions } from "./types";
+import { WithDefaults, ConfigOptions } from "./types.ts";
 
 export const defaults: WithDefaults<ConfigOptions> = {
   fieldSeparator: ",",

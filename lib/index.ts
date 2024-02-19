@@ -1,4 +1,4 @@
-export * from "./generator";
-export { mkConfig } from "./config";
-export { CsvOutput, ConfigOptions, ColumnHeader } from "./types";
-export { asString } from "./helpers";
+export * from "./generator.ts";
+export { mkConfig } from "./config.ts";
+export { CsvOutput, ConfigOptions, ColumnHeader } from "./types.ts";
+export { asString } from "./helpers.ts";

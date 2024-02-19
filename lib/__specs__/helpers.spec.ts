@@ -9,9 +9,9 @@ import {
   buildRow,
   formatData,
   thread,
-} from "../helpers";
-import { byteOrderMark, endOfLine, mkConfig } from "../config";
-import { mkCsvOutput, mkCsvRow, unpack } from "../types";
+} from "../helpers.ts";
+import { byteOrderMark, endOfLine, mkConfig } from "../config.ts";
+import { mkCsvOutput, mkCsvRow, unpack } from "../types.ts";
 
 describe("Helpers", () => {
   describe("thread", () => {
