@@ -1,23 +1,22 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "module": "esnext",
+    "module": "node16",
     "target": "esnext",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
     "declaration": true,
     "types": ["bun-types"],
     "lib": ["esnext"],
-    "moduleResolution": "bundler",
+    "moduleResolution": "node16",
     "moduleDetection": "force",
     "outDir": "./output",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "composite": true,
-    "downlevelIteration": true
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true,
+    "skipLibCheck": true
   },
   "files": ["index.ts"],
   "include": ["lib/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "__spec_"]
 }

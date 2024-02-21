@@ -1,7 +1,7 @@
 import { describe, it, expect } from "bun:test";
-import { mkConfig } from "../config";
-import { generateCsv } from "../generator";
-import { ConfigOptions, unpack } from "../types";
+import { mkConfig } from "../config.ts";
+import { generateCsv } from "../generator.ts";
+import { ConfigOptions, unpack } from "../types.ts";
 
 const mockData = [
   {

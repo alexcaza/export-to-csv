@@ -8,7 +8,7 @@
     "url": "https://github.com/alexcaza/export-to-csv.git"
   },
   "scripts": {
-    "build": "rm -rf output && bun build index.ts --outdir ./output --minify && tsc index.ts --declaration --emitDeclarationOnly --outdir ./output",
+    "build": "rm -rf output && bun build index.ts --outdir ./output --minify && tsc",
     "e2e": "rm -rf integration/export-to-csv.js && bun run build && cp output/index.js integration/export-to-csv.js && playwright test",
     "e2e-ci": "rm -rf integration/export-to-csv.js && bun run build && cp output/index.js integration/export-to-csv.js && bunx playwright install --with-deps && playwright test",
     "e2e-server": "bunx http-server ./integration -p 3000",
@@ -32,8 +32,11 @@
   "bugs": {
     "url": "https://github.com/alexcaza/export-to-csv/issues"
   },
-  "main": "./output/index.js",
+  "exports": "./output/index.js",
   "types": "./output/index.d.ts",
+  "engines": {
+    "node": "^v12.20.0 || >=v14.13.0"
+  },
   "homepage": "https://github.com/alexcaza/export-to-csv#readme",
   "devDependencies": {
     "@babel/core": "^7.22.11",

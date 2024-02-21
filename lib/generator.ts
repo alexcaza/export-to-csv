@@ -2,10 +2,10 @@
 // `lib` no longer works
 /// <reference lib="dom" />
 
-import { mkConfig } from "./config";
-import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors";
-import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers";
-import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types";
+import { mkConfig } from "./config.ts";
+import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors.ts";
+import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers.ts";
+import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types.ts";
 
 /**
  *

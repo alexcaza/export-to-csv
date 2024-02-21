@@ -1,5 +1,5 @@
-import { byteOrderMark, endOfLine } from "./config";
-import { EmptyHeadersError } from "./errors";
+import { byteOrderMark, endOfLine } from "./config.ts";
+import { EmptyHeadersError } from "./errors.ts";
 import {
   ColumnHeader,
   ConfigOptions,
@@ -15,7 +15,7 @@ import {
   mkHeaderKey,
   pack,
   unpack,
-} from "./types";
+} from "./types.ts";
 
 const getHeaderKey = (columnHeader: ColumnHeader): HeaderKey =>
   typeof columnHeader === "object"
