@@ -1,11 +1,11 @@
 {
   "name": "export-to-csv",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Easily create CSV data from json collection",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexcaza/export-to-csv.git"
+    "url": "git+https://github.com/alexcaza/export-to-csv.git"
   },
   "scripts": {
     "build": "rm -rf output && bun build index.ts --outdir ./output --minify && tsc",
