@@ -5,7 +5,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexcaza/export-to-csv.git"
+    "url": "git+https://github.com/alexcaza/export-to-csv.git"
   },
   "scripts": {
     "build": "rm -rf output && bun build index.ts --outdir ./output --minify && tsc",
