@@ -6,6 +6,7 @@ import {
   addFieldSeparator,
   addHeaders,
   addTitle,
+  asString,
   buildRow,
   formatData,
   thread,
@@ -46,7 +47,7 @@ describe("Helpers", () => {
     it("should add a byte order mark to input if set to true", () => {
       const config = mkConfig({ useBom: true });
       const input = mkCsvOutput("test");
-      const output = addBOM(config)(input);
+      const output = asString(addBOM(config)(input));
 
       expect(output).toBe(input + byteOrderMark);
     });
@@ -64,7 +65,7 @@ describe("Helpers", () => {
     it("should add title if set to true", () => {
       const config = mkConfig({ showTitle: true, title: "My title" });
       const input = mkCsvOutput("");
-      const output = addTitle(config)(input);
+      const output = asString(addTitle(config)(input));
 
       expect(output).toBe("My title");
     });
@@ -72,7 +73,7 @@ describe("Helpers", () => {
     it("should add use default if set to true without title given", () => {
       const config = mkConfig({ showTitle: true });
       const input = mkCsvOutput("");
-      const output = addTitle(config)(input);
+      const output = asString(addTitle(config)(input));
 
       expect(output).toBe("My Generated Report");
     });
@@ -80,7 +81,7 @@ describe("Helpers", () => {
     it("should skip title if set to false", () => {
       const config = mkConfig({ showTitle: false, title: "My title" });
       const input = mkCsvOutput("");
-      const output = addTitle(config)(input);
+      const output = asString(addTitle(config)(input));
 
       expect(output).toBe("");
     });
@@ -90,7 +91,7 @@ describe("Helpers", () => {
     it("should add new lines to end of row", () => {
       const csv = mkCsvOutput("");
       const input = mkCsvRow("test,one,two");
-      const output = addEndOfLine(csv)(input);
+      const output = asString(addEndOfLine(csv)(input));
 
       expect(output).toBe(unpack(csv) + unpack(input) + endOfLine);
     });
@@ -102,7 +103,7 @@ describe("Helpers", () => {
       const input = mkCsvRow("test,one,two");
       const output = addFieldSeparator(config)(input);
 
-      expect(output).toBe(input + ",");
+      expect(output).toBe(mkCsvRow(asString(input) + ","));
     });
 
     it("should add field separator to input based on config option", () => {
@@ -110,7 +111,7 @@ describe("Helpers", () => {
       const input = mkCsvRow("test|one|two");
       const output = addFieldSeparator(config)(input);
 
-      expect(output).toBe(input + "|");
+      expect(output).toBe(mkCsvRow(asString(input) + "|"));
     });
   });
 
@@ -118,7 +119,7 @@ describe("Helpers", () => {
     it("should add item to row", () => {
       const config = mkConfig({});
       const input = mkCsvRow("test,one,two,");
-      const output = buildRow(config)(input, "house");
+      const output = asString(buildRow(config)(input, "house"));
 
       expect(output).toBe("test,one,two,house,");
     });
@@ -148,13 +149,13 @@ describe("Helpers", () => {
         const config = mkConfig({
           showColumnHeaders: true,
         });
-        const nameAndDate = addHeaders(config, ["name", "date"])(
-          mkCsvOutput(""),
+        const nameAndDate = asString(
+          addHeaders(config, ["name", "date"])(mkCsvOutput("")),
         );
         expect(nameAndDate).toEqual('"name","date"' + endOfLine);
 
-        const dateAndCity = addHeaders(config, ["date", "city"])(
-          mkCsvOutput(""),
+        const dateAndCity = asString(
+          addHeaders(config, ["date", "city"])(mkCsvOutput("")),
         );
         expect(dateAndCity).toEqual('"date","city"' + endOfLine);
       });
@@ -165,10 +166,11 @@ describe("Helpers", () => {
         const config = mkConfig({
           columnHeaders: ["name", { key: "date", displayLabel: "Date" }],
         });
-        const nameAndDate = addHeaders(config, [
-          "name",
-          { key: "date", displayLabel: "Date" },
-        ])(mkCsvOutput(""));
+        const nameAndDate = asString(
+          addHeaders(config, ["name", { key: "date", displayLabel: "Date" }])(
+            mkCsvOutput(""),
+          ),
+        );
         expect(nameAndDate).toEqual('"name","Date"' + endOfLine);
       });
     });
@@ -177,21 +179,25 @@ describe("Helpers", () => {
   describe("addBody", () => {
     it("should build csv body", () => {
       const config = mkConfig({});
-      const nameAndDate = addBody(
-        config,
-        ["name", "date"],
-        [{ name: "rouky", date: "2023-09-02" }],
-      )(mkCsvOutput(""));
+      const nameAndDate = asString(
+        addBody(
+          config,
+          ["name", "date"],
+          [{ name: "rouky", date: "2023-09-02" }],
+        )(mkCsvOutput("")),
+      );
       expect(nameAndDate).toEqual('"rouky","2023-09-02"' + endOfLine);
     });
 
     it("should build csv body with pretty headers", () => {
       const config = mkConfig({});
-      const nameAndDate = addBody(
-        config,
-        ["name", { key: "date", displayLabel: "Date" }],
-        [{ name: "rouky", date: "2023-09-02" }],
-      )(mkCsvOutput(""));
+      const nameAndDate = asString(
+        addBody(
+          config,
+          ["name", { key: "date", displayLabel: "Date" }],
+          [{ name: "rouky", date: "2023-09-02" }],
+        )(mkCsvOutput("")),
+      );
       expect(nameAndDate).toEqual('"rouky","2023-09-02"' + endOfLine);
     });
   });

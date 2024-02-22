@@ -1,7 +1,8 @@
 import { describe, it, expect } from "bun:test";
 import { mkConfig } from "../config.ts";
 import { generateCsv } from "../generator.ts";
-import { ConfigOptions, unpack } from "../types.ts";
+import { ConfigOptions } from "../types.ts";
+import { asString } from "../helpers.ts";
 
 const mockData = [
   {
@@ -38,7 +39,7 @@ describe("ExportToCsv", () => {
       useKeysAsHeaders: true,
     };
 
-    const string = generateCsv(options)(mockData);
+    const string = asString(generateCsv(options)(mockData));
     expect(typeof string === "string").toBeTruthy();
   });
 
@@ -49,9 +50,9 @@ describe("ExportToCsv", () => {
       useKeysAsHeaders: true,
     };
 
-    const string = generateCsv(options)(mockData);
+    const string = asString(generateCsv(options)(mockData));
 
-    const firstLine = unpack(string).split("\n")[0];
+    const firstLine = string.split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
 
     expect(keys).toEqual([
@@ -74,9 +75,9 @@ describe("ExportToCsv", () => {
 
     const withDefaults = mkConfig(options);
 
-    const output = generateCsv(withDefaults)(mockData);
+    const output = asString(generateCsv(withDefaults)(mockData));
 
-    const firstLine = unpack(output).split("\n")[0];
+    const firstLine = output.split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
 
     expect(keys).toEqual([
@@ -96,9 +97,9 @@ describe("ExportToCsv", () => {
       columnHeaders: ["name", "age"],
     };
 
-    const output = generateCsv(options)(mockData);
+    const output = asString(generateCsv(options)(mockData));
 
-    const firstLine = unpack(output).split("\n")[0];
+    const firstLine = output.split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
 
     expect(keys).toEqual(['"name"', '"age"']);
@@ -112,7 +113,7 @@ describe("ExportToCsv", () => {
       columnHeaders: ["name", "age"],
     };
 
-    const output = generateCsv(options)([]);
+    const output = asString(generateCsv(options)([]));
 
     expect(output).toEqual('"name","age"\r\n');
   });
@@ -137,12 +138,14 @@ describe("ExportToCsv", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)([
-      {
-        "non-null": 24,
-        nullish: null,
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          "non-null": 24,
+          nullish: null,
+        },
+      ]),
+    );
 
     expect(output).toBe('"non-null","nullish"\r\n24,null\r\n');
   });
@@ -155,15 +158,17 @@ describe("ExportToCsv", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)([
-      {
-        car: "toyota",
-        color: "blue",
-      },
-      {
-        car: "chevrolet",
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+      ]),
+    );
 
     expect(output).toBe(
       '"car","color"\r\n"toyota","blue"\r\n"chevrolet",""\r\n',
@@ -178,18 +183,20 @@ describe("ExportToCsv", () => {
       columnHeaders: ["car", "color", "town"],
     };
 
-    const output = generateCsv(options)([
-      {
-        car: "toyota",
-        color: "blue",
-      },
-      {
-        car: "chevrolet",
-      },
-      {
-        town: "montreal",
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+        {
+          town: "montreal",
+        },
+      ]),
+    );
 
     expect(output).toBe(
       '"car","color","town"\r\n"toyota","blue",""\r\n"chevrolet","",""\r\n"","","montreal"\r\n',
@@ -205,12 +212,14 @@ describe("ExportToCsv", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)([
-      {
-        "escape-it": 24,
-        song: 'Mack "The Knife"',
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          "escape-it": 24,
+          song: 'Mack "The Knife"',
+        },
+      ]),
+    );
 
     expect(output).toBe('"escape-it","song"\r\n24,"Mack ""The Knife"""\r\n');
   });
@@ -224,12 +233,14 @@ describe("ExportToCsv", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)([
-      {
-        "escape-it": 24,
-        song: 'Mack "The Knife"',
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          "escape-it": 24,
+          song: 'Mack "The Knife"',
+        },
+      ]),
+    );
 
     expect(output).toBe("'escape-it','song'\r\n24,'Mack \"The Knife\"'\r\n");
   });
@@ -242,8 +253,8 @@ describe("ExportToCsv", () => {
       columnHeaders: ["name", "age"],
     };
 
-    const output = generateCsv(options)(mockData);
-    const firstLine = unpack(output).split("\n")[0];
+    const output = asString(generateCsv(options)(mockData));
+    const firstLine = output.split("\n")[0];
 
     expect(firstLine).toBe('"name","age"\r');
   });
@@ -259,7 +270,7 @@ describe("ExportToCsv As A Text File", () => {
       useKeysAsHeaders: true,
     };
 
-    const string = generateCsv(options)(mockData);
+    const string = asString(generateCsv(options)(mockData));
     expect(typeof string === "string").toBeTruthy();
   });
 
@@ -272,9 +283,9 @@ describe("ExportToCsv As A Text File", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)(mockData);
+    const output = asString(generateCsv(options)(mockData));
 
-    const firstLine = unpack(output).split("\n")[0];
+    const firstLine = output.split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
 
     expect(keys).toEqual([
@@ -296,9 +307,9 @@ describe("ExportToCsv As A Text File", () => {
       columnHeaders: ["name", "age"],
     };
 
-    const output = generateCsv(options)(mockData);
+    const output = asString(generateCsv(options)(mockData));
 
-    const firstLine = unpack(output).split("\n")[0];
+    const firstLine = output.split("\n")[0];
     const keys = firstLine.split(",").map((s: string) => s.trim());
 
     expect(keys).toEqual(['"name"', '"age"']);
@@ -313,7 +324,7 @@ describe("ExportToCsv As A Text File", () => {
       columnHeaders: ["name", "age"],
     };
 
-    const output = generateCsv(options)([]);
+    const output = asString(generateCsv(options)([]));
 
     expect(output).toEqual('"name","age"\r\n');
   });
@@ -340,12 +351,14 @@ describe("ExportToCsv As A Text File", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)([
-      {
-        "non-null": 24,
-        nullish: null,
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          "non-null": 24,
+          nullish: null,
+        },
+      ]),
+    );
 
     expect(output).toBe('"non-null","nullish"\r\n24,null\r\n');
   });
@@ -359,15 +372,17 @@ describe("ExportToCsv As A Text File", () => {
       useKeysAsHeaders: true,
     };
 
-    const output = generateCsv(options)([
-      {
-        car: "toyota",
-        color: "blue",
-      },
-      {
-        car: "chevrolet",
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+      ]),
+    );
 
     expect(output).toBe(
       '"car","color"\r\n"toyota","blue"\r\n"chevrolet",""\r\n',
@@ -383,18 +398,20 @@ describe("ExportToCsv As A Text File", () => {
       columnHeaders: ["car", "color", "town"],
     };
 
-    const output = generateCsv(options)([
-      {
-        car: "toyota",
-        color: "blue",
-      },
-      {
-        car: "chevrolet",
-      },
-      {
-        town: "montreal",
-      },
-    ]);
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+        {
+          town: "montreal",
+        },
+      ]),
+    );
 
     expect(output).toBe(
       '"car","color","town"\r\n"toyota","blue",""\r\n"chevrolet","",""\r\n"","","montreal"\r\n',
@@ -410,8 +427,8 @@ describe("ExportToCsv As A Text File", () => {
       columnHeaders: ["name", "age"],
     };
 
-    const output = generateCsv(options)(mockData);
-    const firstLine = unpack(output).split("\n")[0];
+    const output = asString(generateCsv(options)(mockData));
+    const firstLine = output.split("\n")[0];
 
     expect(firstLine).toBe('"name","age"\r');
   });
