@@ -94,6 +94,47 @@ writeFile(filename, csvBuffer, (err) => {
 });
 ```
 
+### Using `generateCsv` output as a `string`
+
+**Note: this is only applicable to projects using Typescript. If you're using this library with Javascript, you might not run into this issue.**
+
+There might be instances where you want to use the result from `generateCsv` as a `string` instead of a `CsvOutput` type. To do that, you can use `asString`, which is exported from this library.
+
+```typescript
+import { mkConfig, generateCsv, asString } from "export-to-csv";
+
+const csvConfig = mkConfig({ useKeysAsHeaders: true });
+
+const addNewLine = (s: string): string => s + "\n";
+
+const mockData = [
+  {
+    name: "Rouky",
+    date: "2023-09-01",
+    percentage: 0.4,
+    quoted: '"Pickles"',
+  },
+  {
+    name: "Keiko",
+    date: "2023-09-01",
+    percentage: 0.9,
+    quoted: '"Cactus"',
+  },
+];
+
+// Converts your Array<Object> to a CsvOutput string based on the configs
+const csvOutput = generateCsv(csvConfig)(mockData);
+
+// This would result in a type error
+// const csvOutputWithNewLine = addNewLine(csvOutput);
+// ❌ => CsvOutput is not assignable to type string.
+
+// This unpacks CsvOutput which turns it into a string before use
+const csvOutputWithNewLine = addNewLine(asString(csvOutput));
+```
+
+The reason the `CsvOutput` type exists is to prevent accidentally passing in a string which wasn't formatted by `generateCsv` to the `download` function.
+
 ## API
 
 | Option              | Default                          | Type                                                   | Description                                                                                                                                                                                                                                                                                                                               |
