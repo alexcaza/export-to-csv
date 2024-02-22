@@ -40,10 +40,10 @@
   "homepage": "https://github.com/alexcaza/export-to-csv#readme",
   "devDependencies": {
     "@playwright/test": "^1.37.1",
-    "bun-types": "^1.0.3",
+    "bun-types": "^1.0.28",
     "http-server": "^14.1.1",
     "prettier": "3.0.3",
-    "bun": "~1.0.3",
+    "bun": "~1.0.28",
     "typescript": "~5.3.3"
   }
 }
