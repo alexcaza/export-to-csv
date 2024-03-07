@@ -67,7 +67,7 @@ describe("Helpers", () => {
       const input = mkCsvOutput("");
       const output = asString(addTitle(config)(input));
 
-      expect(output).toBe("My title");
+      expect(output).toBe("My title\r\n");
     });
 
     it("should add use default if set to true without title given", () => {
@@ -75,7 +75,7 @@ describe("Helpers", () => {
       const input = mkCsvOutput("");
       const output = asString(addTitle(config)(input));
 
-      expect(output).toBe("My Generated Report");
+      expect(output).toBe("My Generated Report\r\n");
     });
 
     it("should skip title if set to false", () => {

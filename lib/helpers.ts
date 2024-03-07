@@ -40,7 +40,9 @@ export const addBOM =
 export const addTitle =
   (config: WithDefaults<ConfigOptions>) =>
   (output: CsvOutput): CsvOutput =>
-    config.showTitle ? mkCsvOutput(unpack(output) + config.title) : output;
+    config.showTitle
+      ? addEndOfLine(mkCsvOutput(unpack(output) + config.title))(mkCsvRow(""))
+      : output;
 
 export const addEndOfLine =
   (output: CsvOutput) =>
