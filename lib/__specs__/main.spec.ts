@@ -258,6 +258,21 @@ describe("ExportToCsv", () => {
 
     expect(firstLine).toBe('"name","age"\r');
   });
+
+  it("should put the title on the first line", () => {
+    const options: ConfigOptions = {
+      title: "Test Csv 2",
+      showTitle: true,
+      useBom: false,
+      showColumnHeaders: true,
+      columnHeaders: ["name", "age"],
+    };
+
+    const output = asString(generateCsv(options)(mockData));
+    const firstLine = output.split("\n")[0];
+
+    expect(firstLine).toBe("Test Csv 2\r");
+  });
 });
 
 describe("ExportToCsv As A Text File", () => {
@@ -431,5 +446,20 @@ describe("ExportToCsv As A Text File", () => {
     const firstLine = output.split("\n")[0];
 
     expect(firstLine).toBe('"name","age"\r');
+  });
+
+  it("should put the title on the first line", () => {
+    const options: ConfigOptions = {
+      title: "Test Csv 2",
+      showTitle: true,
+      useBom: false,
+      showColumnHeaders: true,
+      columnHeaders: ["name", "age"],
+    };
+
+    const output = asString(generateCsv(options)(mockData));
+    const firstLine = output.split("\n")[0];
+
+    expect(firstLine).toBe("Test Csv 2\r");
   });
 });
