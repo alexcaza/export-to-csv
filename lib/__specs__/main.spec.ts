@@ -147,7 +147,7 @@ describe("ExportToCsv", () => {
       ]),
     );
 
-    expect(output).toBe('"non-null","nullish"\r\n24,null\r\n');
+    expect(output).toBe('"non-null","nullish"\r\n24,"null"\r\n');
   });
 
   it("should convert undefined to empty string by default", () => {
@@ -375,7 +375,7 @@ describe("ExportToCsv As A Text File", () => {
       ]),
     );
 
-    expect(output).toBe('"non-null","nullish"\r\n24,null\r\n');
+    expect(output).toBe('"non-null","nullish"\r\n24,"null"\r\n');
   });
 
   it("should convert undefined to empty string by default", () => {
