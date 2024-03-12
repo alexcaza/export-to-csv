@@ -181,7 +181,7 @@ describe("ExportToCsv", () => {
       useBom: false,
       showColumnHeaders: true,
       useKeysAsHeaders: true,
-      replaceUndefinedWith: "TEST"
+      replaceUndefinedWith: "TEST",
     };
 
     const output = asString(
@@ -437,7 +437,7 @@ describe("ExportToCsv As A Text File", () => {
       useBom: false,
       showColumnHeaders: true,
       useKeysAsHeaders: true,
-      replaceUndefinedWith: "TEST"
+      replaceUndefinedWith: "TEST",
     };
 
     const output = asString(
