@@ -1,16 +1,19 @@
 import { byteOrderMark, endOfLine } from "./config.ts";
-import { EmptyHeadersError } from "./errors.ts";
+import { EmptyHeadersError, UnsupportedDataFormatError } from "./errors.ts";
 import {
+  AcceptedData,
   ColumnHeader,
   ConfigOptions,
   CsvOutput,
   CsvRow,
+  FormattedData,
   HeaderDisplayLabel,
   HeaderKey,
   Newtype,
   WithDefaults,
   mkCsvOutput,
   mkCsvRow,
+  mkFormattedData,
   mkHeaderDisplayLabel,
   mkHeaderKey,
   pack,
@@ -51,8 +54,8 @@ export const addEndOfLine =
 
 export const buildRow =
   (config: WithDefaults<ConfigOptions>) =>
-  (row: CsvRow, data: string): CsvRow =>
-    addFieldSeparator(config)(mkCsvRow(row + data));
+  (row: CsvRow, data: FormattedData): CsvRow =>
+    addFieldSeparator(config)(mkCsvRow(unpack(row) + unpack(data)));
 
 export const addFieldSeparator =
   (config: WithDefaults<ConfigOptions>) =>
@@ -75,7 +78,7 @@ export const addHeaders =
     let row = mkCsvRow("");
     for (let keyPos = 0; keyPos < headers.length; keyPos++) {
       const header = getHeaderDisplayLabel(headers[keyPos]);
-      row = buildRow(config)(row, formatData(config, header));
+      row = buildRow(config)(row, formatData(config, unpack(header)));
     }
 
     row = mkCsvRow(unpack(row).slice(0, -1));
@@ -83,7 +86,7 @@ export const addHeaders =
   };
 
 export const addBody =
-  <T extends Array<{ [k: string]: unknown }>>(
+  <T extends Array<{ [k: string]: AcceptedData }>>(
     config: WithDefaults<ConfigOptions>,
     headers: Array<ColumnHeader>,
     bodyData: T,
@@ -94,10 +97,7 @@ export const addBody =
       let row = mkCsvRow("");
       for (let keyPos = 0; keyPos < headers.length; keyPos++) {
         const header = getHeaderKey(headers[keyPos]);
-        const data =
-          typeof bodyData[i][unpack(header)] === "undefined"
-            ? config.replaceUndefinedWith
-            : bodyData[i][unpack(header)];
+        const data = bodyData[i][unpack(header)];
         row = buildRow(config)(row, formatData(config, data));
       }
 
@@ -118,42 +118,94 @@ export const addBody =
  */
 export const asString = unpack<Newtype<any, string>>;
 
-const isFloat = (input: any): boolean =>
+const isFloat = (input: boolean | string | number): boolean =>
   +input === input && (!isFinite(input) || Boolean(input % 1));
 
-export const formatData = (config: ConfigOptions, data: any): string => {
-  if (config.decimalSeparator === "locale" && isFloat(data)) {
-    return data.toLocaleString();
+const formatNumber = (config: ConfigOptions, data: number): FormattedData => {
+  if (isFloat(data)) {
+    if (config.decimalSeparator === "locale") {
+      return mkFormattedData(data.toLocaleString());
+    }
+    if (config.decimalSeparator) {
+      return mkFormattedData(
+        data.toString().replace(".", config.decimalSeparator),
+      );
+    }
   }
 
-  if (config.decimalSeparator !== "." && isFloat(data)) {
-    return data.toString().replace(".", config.decimalSeparator);
+  return mkFormattedData(data.toString());
+};
+
+const formatString = (config: ConfigOptions, data: string): FormattedData => {
+  let val = data;
+  if (
+    config.quoteStrings ||
+    (config.fieldSeparator && data.indexOf(config.fieldSeparator) > -1) ||
+    (config.quoteCharacter && data.indexOf(config.quoteCharacter) > -1) ||
+    data.indexOf("\n") > -1 ||
+    data.indexOf("\r") > -1
+  ) {
+    val =
+      config.quoteCharacter +
+      escapeDoubleQuotes(data, config.quoteCharacter) +
+      config.quoteCharacter;
+  }
+  return mkFormattedData(val);
+};
+
+const formatBoolean = (config: ConfigOptions, data: boolean): FormattedData => {
+  // Convert to string to use as lookup in config
+  const asStr = data ? "true" : "false";
+  // Return the custom boolean display. We expect the callsite to validate
+  // that `boolDisplay` is set.
+  return mkFormattedData(config.boolDisplay![asStr]);
+};
+
+const formatNullish = (
+  config: ConfigOptions,
+  data: null | undefined,
+): FormattedData => {
+  if (
+    typeof data === "undefined" &&
+    config.replaceUndefinedWith !== undefined
+  ) {
+    // Coerce whatever was passed to a string
+    return formatString(config, config.replaceUndefinedWith + "");
+  }
+
+  if (data === null) {
+    return formatString(config, "null");
+  }
+
+  return formatString(config, "");
+};
+
+export const formatData = (
+  config: ConfigOptions,
+  data: AcceptedData,
+): FormattedData => {
+  if (typeof data === "number") {
+    return formatNumber(config, data);
   }
 
   if (typeof data === "string") {
-    let val = data;
-    if (
-      config.quoteStrings ||
-      (config.fieldSeparator && data.indexOf(config.fieldSeparator) > -1) ||
-      (config.quoteCharacter && data.indexOf(config.quoteCharacter) > -1) ||
-      data.indexOf("\n") > -1 ||
-      data.indexOf("\r") > -1
-    ) {
-      val =
-        config.quoteCharacter +
-        escapeDoubleQuotes(data, config.quoteCharacter) +
-        config.quoteCharacter;
-    }
-    return val;
+    return formatString(config, data);
   }
 
   if (typeof data === "boolean" && config.boolDisplay) {
-    // Convert to string to use as lookup in config
-    const asStr = data ? "true" : "false";
-    // Return the custom boolean display if set
-    return config.boolDisplay[asStr];
+    return formatBoolean(config, data);
   }
-  return data;
+
+  if (data === null || typeof data === "undefined") {
+    return formatNullish(config, data);
+  }
+
+  throw new UnsupportedDataFormatError(
+    `
+    typeof ${typeof data} isn't supported. Only number, string, boolean, null and undefined are supported.
+    Please convert the data in your object to one of those before generating the CSV.
+    `,
+  );
 };
 
 /**
