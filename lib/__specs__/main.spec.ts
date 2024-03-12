@@ -175,6 +175,32 @@ describe("ExportToCsv", () => {
     );
   });
 
+  it("should replace undefined with specified value", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+      replaceUndefinedWith: "TEST"
+    };
+
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+      ]),
+    );
+
+    expect(output).toBe(
+      '"car","color"\r\n"toyota","blue"\r\n"chevrolet","TEST"\r\n',
+    );
+  });
+
   it("should handle varying data shapes by manually setting column headers", () => {
     const options: ConfigOptions = {
       filename: "Test Csv 2",
@@ -401,6 +427,33 @@ describe("ExportToCsv As A Text File", () => {
 
     expect(output).toBe(
       '"car","color"\r\n"toyota","blue"\r\n"chevrolet",""\r\n',
+    );
+  });
+
+  it("should replace undefined with specified value", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useTextFile: true,
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+      replaceUndefinedWith: "TEST"
+    };
+
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+      ]),
+    );
+
+    expect(output).toBe(
+      '"car","color"\r\n"toyota","blue"\r\n"chevrolet","TEST"\r\n',
     );
   });
 
