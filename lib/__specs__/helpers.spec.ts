@@ -12,7 +12,7 @@ import {
   thread,
 } from "../helpers.ts";
 import { byteOrderMark, endOfLine, mkConfig } from "../config.ts";
-import { mkCsvOutput, mkCsvRow, unpack } from "../types.ts";
+import { mkCsvOutput, mkCsvRow, mkFormattedData, unpack } from "../types.ts";
 
 describe("Helpers", () => {
   describe("thread", () => {
@@ -119,7 +119,9 @@ describe("Helpers", () => {
     it("should add item to row", () => {
       const config = mkConfig({});
       const input = mkCsvRow("test,one,two,");
-      const output = asString(buildRow(config)(input, "house"));
+      const output = asString(
+        buildRow(config)(input, mkFormattedData("house")),
+      );
 
       expect(output).toBe("test,one,two,house,");
     });
@@ -208,7 +210,7 @@ describe("Helpers", () => {
         decimalSeparator: "locale",
       });
       const formatted = formatData(config, 0.6);
-      expect(formatted).toEqual((0.6).toLocaleString());
+      expect(formatted).toEqual(mkFormattedData((0.6).toLocaleString()));
     });
 
     it("should use custom decimal separator if set", () => {
@@ -216,24 +218,24 @@ describe("Helpers", () => {
         decimalSeparator: "|",
       });
       const formatted = formatData(config, 0.6);
-      expect(formatted).toEqual("0|6");
+      expect(formatted).toEqual(mkFormattedData("0|6"));
     });
 
     it("should properly quote strings that may conflict with generation", () => {
       // Default case should quote stings
       let config = mkConfig({});
       const defaultQuote = formatData(config, "test");
-      expect(defaultQuote).toEqual('"test"');
+      expect(defaultQuote).toEqual(mkFormattedData('"test"'));
 
       // Use custom quote strings
       config = mkConfig({ quoteCharacter: "^" });
       const customQuotes = formatData(config, "test");
-      expect(customQuotes).toEqual("^test^");
+      expect(customQuotes).toEqual(mkFormattedData("^test^"));
 
       // Disable quoting strings
       config = mkConfig({ quoteStrings: false });
       const disableQuotes = formatData(config, "test");
-      expect(disableQuotes).toEqual("test");
+      expect(disableQuotes).toEqual(mkFormattedData("test"));
     });
 
     describe("force quote problem characters", () => {
@@ -241,22 +243,22 @@ describe("Helpers", () => {
         // Quote field separator
         let config = mkConfig({ quoteStrings: false });
         const customQuote = formatData(config, ",");
-        expect(customQuote).toEqual('","');
+        expect(customQuote).toEqual(mkFormattedData('","'));
 
         // Wrap new line
         config = mkConfig({ quoteStrings: false });
         const wrapNewLine = formatData(config, "test\n");
-        expect(wrapNewLine).toEqual('"test\n"');
+        expect(wrapNewLine).toEqual(mkFormattedData('"test\n"'));
 
         // Wrap carrage return
         config = mkConfig({ quoteStrings: false });
         const wrapCR = formatData(config, "test\r");
-        expect(wrapCR).toEqual('"test\r"');
+        expect(wrapCR).toEqual(mkFormattedData('"test\r"'));
 
         // Force quote with custom character
         config = mkConfig({ quoteStrings: false, quoteCharacter: "|" });
         const wrapCRWithCustom = formatData(config, "test\r");
-        expect(wrapCRWithCustom).toEqual("|test\r|");
+        expect(wrapCRWithCustom).toEqual(mkFormattedData("|test\r|"));
       });
     });
   });
