@@ -5,7 +5,14 @@
 import { mkConfig } from "./config.ts";
 import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors.ts";
 import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers.ts";
-import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types.ts";
+import {
+  CsvOutput,
+  ConfigOptions,
+  IO,
+  mkCsvOutput,
+  unpack,
+  AcceptedData,
+} from "./types.ts";
 
 /**
  *
@@ -19,7 +26,13 @@ import { CsvOutput, ConfigOptions, IO, mkCsvOutput, unpack } from "./types.ts";
  */
 export const generateCsv =
   (config: ConfigOptions) =>
-  <T extends { [k: string | number]: unknown }>(data: Array<T>): CsvOutput => {
+  <
+    T extends {
+      [k: string | number]: AcceptedData;
+    },
+  >(
+    data: Array<T>,
+  ): CsvOutput => {
     const withDefaults = mkConfig(config);
     const headers = withDefaults.useKeysAsHeaders
       ? Object.keys(data[0])

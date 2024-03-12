@@ -31,6 +31,12 @@ export type HeaderDisplayLabel = Newtype<
   string
 >;
 
+export type AcceptedData = number | string | boolean | null | undefined;
+export type FormattedData = Newtype<
+  { readonly FormattedData: unique symbol },
+  string
+>;
+
 export type CsvOutput = Newtype<{ readonly CsvOutput: unique symbol }, string>;
 
 export type CsvRow = Newtype<{ readonly CsvRow: unique symbol }, string>;
@@ -43,6 +49,7 @@ export const pack = <T extends Newtype<any, any>>(value: T["_A"]): T =>
 export const unpack = <T extends Newtype<any, any>>(newtype: T): T["_A"] =>
   newtype as any as T["_A"];
 
+export const mkFormattedData = pack<FormattedData>;
 export const mkCsvOutput = pack<CsvOutput>;
 export const mkCsvRow = pack<CsvRow>;
 export const mkHeaderKey = pack<HeaderKey>;

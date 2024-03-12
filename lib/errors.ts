@@ -18,3 +18,10 @@ export class CsvDownloadEnvironmentError extends Error {
     this.name = "CsvDownloadEnvironmentError";
   }
 }
+
+export class UnsupportedDataFormatError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UnsupportedDataFormatError";
+  }
+}

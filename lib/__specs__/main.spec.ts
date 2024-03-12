@@ -147,7 +147,7 @@ describe("ExportToCsv", () => {
       ]),
     );
 
-    expect(output).toBe('"non-null","nullish"\r\n24,null\r\n');
+    expect(output).toBe('"non-null","nullish"\r\n24,"null"\r\n');
   });
 
   it("should convert undefined to empty string by default", () => {
@@ -172,6 +172,32 @@ describe("ExportToCsv", () => {
 
     expect(output).toBe(
       '"car","color"\r\n"toyota","blue"\r\n"chevrolet",""\r\n',
+    );
+  });
+
+  it("should replace undefined with specified value", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+      replaceUndefinedWith: "TEST",
+    };
+
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+      ]),
+    );
+
+    expect(output).toBe(
+      '"car","color"\r\n"toyota","blue"\r\n"chevrolet","TEST"\r\n',
     );
   });
 
@@ -375,7 +401,7 @@ describe("ExportToCsv As A Text File", () => {
       ]),
     );
 
-    expect(output).toBe('"non-null","nullish"\r\n24,null\r\n');
+    expect(output).toBe('"non-null","nullish"\r\n24,"null"\r\n');
   });
 
   it("should convert undefined to empty string by default", () => {
@@ -401,6 +427,33 @@ describe("ExportToCsv As A Text File", () => {
 
     expect(output).toBe(
       '"car","color"\r\n"toyota","blue"\r\n"chevrolet",""\r\n',
+    );
+  });
+
+  it("should replace undefined with specified value", () => {
+    const options: ConfigOptions = {
+      filename: "Test Csv 2",
+      useTextFile: true,
+      useBom: false,
+      showColumnHeaders: true,
+      useKeysAsHeaders: true,
+      replaceUndefinedWith: "TEST",
+    };
+
+    const output = asString(
+      generateCsv(options)([
+        {
+          car: "toyota",
+          color: "blue",
+        },
+        {
+          car: "chevrolet",
+        },
+      ]),
+    );
+
+    expect(output).toBe(
+      '"car","color"\r\n"toyota","blue"\r\n"chevrolet","TEST"\r\n',
     );
   });
 
