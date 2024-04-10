@@ -43,6 +43,18 @@ describe("ExportToCsv", () => {
     expect(typeof string === "string").toBeTruthy();
   });
 
+  it("should use fieldSeparator if supplied", () => {
+    const options: ConfigOptions = {
+      title: "Test Csv",
+      useBom: false,
+      useKeysAsHeaders: true,
+      fieldSeparator: ";",
+    };
+
+    const string = asString(generateCsv(options)([{ test: "hello" }]));
+    expect(string).toEqual('"test"\r\n"hello"\r\n');
+  });
+
   it("should use keys of first object in collection as headers", () => {
     const options: ConfigOptions = {
       title: "Test Csv",
