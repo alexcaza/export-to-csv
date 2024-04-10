@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/alexcaza/export-to-csv#readme",
   "devDependencies": {
-    "@playwright/test": "^1.37.1",
+    "@playwright/test": "1.42.1",
     "bun-types": "^1.0.28",
     "http-server": "^14.1.1",
     "prettier": "3.0.3",
