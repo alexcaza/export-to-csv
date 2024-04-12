@@ -24,6 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Package versions:**
+
 - Typescript: [5.0]
 - export-to-csv: [1.2.4]
 - runtime: [e.g. node 20 or bun 1.1]
