@@ -43,6 +43,38 @@ describe("ExportToCsv", () => {
     expect(typeof string === "string").toBeTruthy();
   });
 
+  it("should allow keys with spaces", () => {
+    const mockDataOne = [
+      {
+        "Hello world": "test",
+        "this is another string with many spaces": 10,
+      },
+    ];
+
+    const optionsOne = mkConfig({ useBom: false, useKeysAsHeaders: true });
+    const stringOne = asString(generateCsv(optionsOne)(mockDataOne));
+    expect(stringOne).toEqual(
+      '"Hello world","this is another string with many spaces"\r\n"test",10\r\n',
+    );
+
+    const mockDataTwo = [
+      {
+        "Hello world": "test",
+        "this is another string with many spaces": 10,
+      },
+    ];
+
+    const optionsTwo = mkConfig({
+      useBom: false,
+      showColumnHeaders: true,
+      columnHeaders: ["Hello world", "this is another string with many spaces"],
+    });
+    const stringTwo = asString(generateCsv(optionsTwo)(mockDataTwo));
+    expect(stringTwo).toEqual(
+      '"Hello world","this is another string with many spaces"\r\n"test",10\r\n',
+    );
+  });
+
   it("should use fieldSeparator if supplied", () => {
     const options: ConfigOptions = {
       title: "Test Csv",
