@@ -175,9 +175,12 @@ const csvBtn = document.querySelector("#csv");
 
 csvBtn.addEventListener("click", () => {
   // Use Chrome's downloads API for extensions
-  chrome.downloads.download({ url, body: csv, filename: "chrome-extension-output.csv" });
+  chrome.downloads.download({
+    url,
+    body: csv,
+    filename: "chrome-extension-output.csv",
+  });
 });
-
 ```
 
 ## API
