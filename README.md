@@ -135,6 +135,49 @@ const csvOutputWithNewLine = addNewLine(asString(csvOutput));
 
 The reason the `CsvOutput` type exists is to prevent accidentally passing in a string which wasn't formatted by `generateCsv` to the `download` function.
 
+### Using `generateCsv` output as a `Blob`
+
+A case for this would be using browser extension download methods _instead of_ the supplied `download` function. There may be scenarios where using a `Blob` might be more ergonomic.
+
+```typescript
+import { mkConfig, generateCsv, asBlob } from "export-to-csv";
+
+// mkConfig merges your options with the defaults
+// and returns WithDefaults<ConfigOptions>
+const csvConfig = mkConfig({ useKeysAsHeaders: true });
+
+const mockData = [
+  {
+    name: "Rouky",
+    date: "2023-09-01",
+    percentage: 0.4,
+    quoted: '"Pickles"',
+  },
+  {
+    name: "Keiko",
+    date: "2023-09-01",
+    percentage: 0.9,
+    quoted: '"Cactus"',
+  },
+];
+
+// Converts your Array<Object> to a CsvOutput string based on the configs
+const csv = generateCsv(csvConfig)(mockData);
+
+// Generate the Blob from the CsvOutput
+const blob = asBlob(csvConfig)(csv);
+const url = URL.createObjectURL(blob);
+
+// Assuming there's a button with an id of csv in the DOM
+const csvBtn = document.querySelector("#csv");
+
+csvBtn.addEventListener("click", () => {
+  // Use Chrome's downloads API for extensions
+  chrome.downloads.download({ url, body: csv, filename: "chrome-extension-output.csv" });
+});
+
+```
+
 ## API
 
 | Option              | Default                          | Type                                                   | Description                                                                                                                                                                                                                                                                                                                               |
