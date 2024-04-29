@@ -166,6 +166,8 @@ const csv = generateCsv(csvConfig)(mockData);
 
 // Generate the Blob from the CsvOutput
 const blob = asBlob(csvConfig)(csv);
+
+// Requires URL to be available (web workers or client scripts only)
 const url = URL.createObjectURL(blob);
 
 // Assuming there's a button with an id of csv in the DOM
