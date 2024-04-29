@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 import { mkConfig } from "../config.ts";
-import { generateCsv } from "../generator.ts";
+import { asBlob, generateCsv } from "../generator.ts";
 import { ConfigOptions } from "../types.ts";
 import { asString } from "../helpers.ts";
 
@@ -342,5 +342,25 @@ describe("ExportToCsv", () => {
     const firstLine = output.split("\n")[0];
 
     expect(firstLine).toBe("Test Csv 2\r");
+  });
+
+  describe("asBlob", () => {
+    it("should construct a valid blob based on options", async () => {
+      const options: ConfigOptions = {
+        title: "Test Csv 2",
+        showTitle: true,
+        useBom: false,
+        showColumnHeaders: true,
+        columnHeaders: ["name", "age"],
+      };
+
+      const output = generateCsv(options)(mockData);
+      const blob = asBlob(options)(output);
+      const text = await blob.text();
+
+      expect(blob.type).toBe("text/csv;charset=utf8;");
+      expect(text.split("\n")[0]).toBe("Test Csv 2\r");
+      expect(blob.size).toBe(65);
+    });
   });
 });

@@ -57,6 +57,26 @@ export const generateCsv =
   };
 
 /**
+ * Returns the Blob representation of the CsvOutput generated
+ * by `generateCsv`. This is useful if you need to access the
+ * data for downloading in other contexts; like browser extensions.
+ */
+export const asBlob =
+  (config: ConfigOptions) =>
+  (csvOutput: CsvOutput): Blob => {
+    const withDefaults = mkConfig(config);
+    const data = unpack(csvOutput);
+
+    // Create blob from CsvOutput either as text or csv file.
+    const fileType = withDefaults.useTextFile ? "plain" : "csv";
+    const blob = new Blob([data], {
+      type: `text/${fileType};charset=utf8;`,
+    });
+
+    return blob;
+  };
+
+/**
  *
  * **Only supported in browser environment.**
  *
@@ -77,20 +97,17 @@ export const download =
       );
     }
 
-    const withDefaults = mkConfig(config);
-    const data = unpack(csvOutput);
-
     // Create blob from CsvOutput either as text or csv file.
-    const fileType = withDefaults.useTextFile ? "plain" : "csv";
+    const blob = asBlob(config)(csvOutput);
+
+    const withDefaults = mkConfig(config);
     const fileExtension = withDefaults.useTextFile ? "txt" : "csv";
-    let blob = new Blob([data], {
-      type: `text/${fileType};charset=utf8;`,
-    });
+    const fileName = `${withDefaults.filename}.${fileExtension}`;
 
     // Create link element in the browser and set the download
     // attribute to the blob that was created.
-    let link = document.createElement("a");
-    link.download = `${withDefaults.filename}.${fileExtension}`;
+    const link = document.createElement("a");
+    link.download = fileName;
     link.href = URL.createObjectURL(blob);
 
     // Ensure the link isn't visible to the user or cause layout shifts.
