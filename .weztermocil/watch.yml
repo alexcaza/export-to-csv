@@ -1,0 +1,8 @@
+windows:
+  - name: export-to-csv-watch
+    root: .
+    layout: tiled
+    panes:
+      - bun run test -- --watch
+      - bun run watch
+      - bun run tsc --watch
