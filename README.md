@@ -1,5 +1,9 @@
 # export-to-csv | Export to CSV Mini Library
 
+Like this library and want to support active development?
+
+<a href='https://ko-fi.com/T6T8XO5J5' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi4.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 Small, simple, and single purpose. Zero dependencies, functionally inspired, and fairly well-typed.
 
 If you're looking for a fully CSV-compliant, consistently maintained, whole-package library, I'd recommend looking elsewhere! (see [alternatives](#alternatives) section below)
