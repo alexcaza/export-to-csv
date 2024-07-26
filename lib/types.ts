@@ -22,6 +22,13 @@ export type ConfigOptions = {
   showColumnHeaders?: boolean;
   showTitle?: boolean;
   title?: string;
+  /**
+   * Use `fileExtension` instead.
+   *
+   * Will be removed in the next major version (`2.x.x`)
+   *
+   * @deprecated
+   */
   useTextFile?: boolean;
   fileExtension?: string;
   mediaType?: MediaType;
