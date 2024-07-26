@@ -1,7 +1,7 @@
 import { describe, it, expect } from "bun:test";
 import { mkConfig } from "../config.ts";
 import { asBlob, generateCsv } from "../generator.ts";
-import { ConfigOptions } from "../types.ts";
+import { ConfigOptions, MediaType } from "../types.ts";
 import { asString } from "../helpers.ts";
 
 const mockData = [
@@ -342,6 +342,27 @@ describe("ExportToCsv", () => {
     const firstLine = output.split("\n")[0];
 
     expect(firstLine).toBe("Test Csv 2\r");
+  });
+
+  it("should allow for custom file extensions", () => {
+    const csvOpts: ConfigOptions = {
+      mediaType: MediaType.csv,
+    };
+    const csvConf = mkConfig(csvOpts);
+
+    const txtOpts: ConfigOptions = {
+      mediaType: MediaType.plain,
+    };
+    const txtConf = mkConfig(txtOpts);
+
+    const tsvOpts: ConfigOptions = {
+      mediaType: MediaType.tsv,
+    };
+    const tsvConf = mkConfig(tsvOpts);
+
+    expect(csvConf.mediaType).toBe(MediaType.csv);
+    expect(txtConf.mediaType).toBe(MediaType.plain);
+    expect(tsvConf.mediaType).toBe(MediaType.tsv);
   });
 
   describe("asBlob", () => {
