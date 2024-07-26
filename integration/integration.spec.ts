@@ -55,3 +55,31 @@ test("download txt file (custom filename)", async ({ page }) => {
   // assert filename
   expect(download.suggestedFilename()).toBe("Best CSV as Text.txt");
 });
+
+test("download tsv file (default filename)", async ({ page }) => {
+  await page.goto("http://127.0.0.1:3000");
+
+  const [download] = await Promise.all([
+    // Start waiting for the download
+    page.waitForEvent("download"),
+    // Perform the action that initiates download
+    page.locator("button#tsv").click(),
+  ]);
+
+  // assert filename
+  expect(download.suggestedFilename()).toBe("generated.txt");
+});
+
+test("download tsv file (custom filename and extension)", async ({ page }) => {
+  await page.goto("http://127.0.0.1:3000");
+
+  const [download] = await Promise.all([
+    // Start waiting for the download
+    page.waitForEvent("download"),
+    // Perform the action that initiates download
+    page.locator("button#tsv-custom").click(),
+  ]);
+
+  // assert filename
+  expect(download.suggestedFilename()).toBe("Best CSV as TSV.tsv");
+});

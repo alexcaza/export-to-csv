@@ -101,7 +101,10 @@ export const download =
     const blob = asBlob(config)(csvOutput);
 
     const withDefaults = mkConfig(config);
-    const fileExtension = withDefaults.useTextFile ? "txt" : "csv";
+    const fileExtension = withDefaults.useTextFile
+      ? "txt"
+      : withDefaults.fileExtension;
+
     const fileName = `${withDefaults.filename}.${fileExtension}`;
 
     // Create link element in the browser and set the download

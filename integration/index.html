@@ -9,6 +9,11 @@
         useKeysAsHeaders: true,
         useTextFile: true,
       });
+      const tsvConfig = mkConfig({
+        useKeysAsHeaders: true,
+        useTextFile: true,
+        delimiter: "\t",
+      });
       const csvConfigCustomFilename = mkConfig({
         useKeysAsHeaders: true,
         filename: "Best CSV",
@@ -17,6 +22,12 @@
         useKeysAsHeaders: true,
         useTextFile: true,
         filename: "Best CSV as Text",
+      });
+      const tsvConfigCustomFilename = mkConfig({
+        useKeysAsHeaders: true,
+        fileExtension: "tsv",
+        delimiter: "\t",
+        filename: "Best CSV as TSV",
       });
 
       const mockData = [
@@ -40,21 +51,29 @@
 
       const csv = generateCsv(csvConfig)(mockData);
       const txt = generateCsv(txtConfig)(mockData);
+      const tsv = generateCsv(tsvConfig)(mockData);
       const csvCustomFilename = generateCsv(csvConfig)(mockData);
       const txtCustomFilename = generateCsv(txtConfig)(mockData);
+      const tsvCustomFilename = generateCsv(tsvConfig)(mockData);
 
       const csvBtn = document.querySelector("#csv");
       const txtBtn = document.querySelector("#txt");
+      const tsvBtn = document.querySelector("#tsv");
       const csvBtnCustom = document.querySelector("#csv-custom");
       const txtBtnCustom = document.querySelector("#txt-custom");
+      const tsvBtnCustom = document.querySelector("#tsv-custom");
 
       csvBtn.addEventListener("click", () => download(csvConfig)(csv));
       txtBtn.addEventListener("click", () => download(txtConfig)(txt));
+      tsvBtn.addEventListener("click", () => download(tsvConfig)(tsv));
       csvBtnCustom.addEventListener("click", () =>
         download(csvConfigCustomFilename)(csvCustomFilename),
       );
       txtBtnCustom.addEventListener("click", () =>
         download(txtConfigCustomFilename)(txtCustomFilename),
+      );
+      tsvBtnCustom.addEventListener("click", () =>
+        download(tsvConfigCustomFilename)(tsvCustomFilename),
       );
     </script>
   </head>
@@ -63,7 +82,11 @@
     <h1>Export to CSV testing</h1>
     <button id="csv">Download as CSV</button>
     <button id="txt">Download as TXT</button>
+    <button id="tsv">Download as TSV</button>
     <button id="csv-custom">Download as CSV (custom filename)</button>
     <button id="txt-custom">Download as TXT (custom filename)</button>
+    <button id="tsv-custom">
+      Download as TSV (custom filename and extension)
+    </button>
   </body>
 </html>

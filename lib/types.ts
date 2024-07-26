@@ -17,6 +17,7 @@ export type ConfigOptions = {
   showTitle?: boolean;
   title?: string;
   useTextFile?: boolean;
+  fileExtension?: string;
   useBom?: boolean;
   columnHeaders?: Array<ColumnHeader>;
   useKeysAsHeaders?: boolean;
