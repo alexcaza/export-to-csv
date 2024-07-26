@@ -7,6 +7,12 @@ export type WithDefaults<T> = Required<T>;
 
 export type ColumnHeader = string | { key: string; displayLabel: string };
 
+export enum MediaType {
+  csv = "text/csv",
+  tsv = "text/tab-separated-values",
+  plain = "text/plain",
+}
+
 export type ConfigOptions = {
   filename?: string;
   fieldSeparator?: string;
@@ -18,6 +24,7 @@ export type ConfigOptions = {
   title?: string;
   useTextFile?: boolean;
   fileExtension?: string;
+  mediaType?: MediaType;
   useBom?: boolean;
   columnHeaders?: Array<ColumnHeader>;
   useKeysAsHeaders?: boolean;
