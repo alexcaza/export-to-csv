@@ -15,7 +15,8 @@
     "e2e-server": "bunx http-server ./integration -p 3000",
     "test": "bun test lib/__specs__/",
     "format": "bunx prettier --write '.'",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "prepare": "bun run build"
   },
   "keywords": [
     "export-to-csv",

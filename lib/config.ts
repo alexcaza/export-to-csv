@@ -10,6 +10,7 @@ export const defaults: WithDefaults<ConfigOptions> = {
   filename: "generated",
   showColumnHeaders: true,
   useTextFile: false,
+  fileExtension: "csv",
   useBom: true,
   columnHeaders: [],
   useKeysAsHeaders: false,
