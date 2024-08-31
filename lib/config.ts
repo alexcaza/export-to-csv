@@ -1,4 +1,4 @@
-import { WithDefaults, ConfigOptions } from "./types.ts";
+import { WithDefaults, ConfigOptions, MediaType } from "./types.ts";
 
 export const defaults: WithDefaults<ConfigOptions> = {
   fieldSeparator: ",",
@@ -11,6 +11,7 @@ export const defaults: WithDefaults<ConfigOptions> = {
   showColumnHeaders: true,
   useTextFile: false,
   fileExtension: "csv",
+  mediaType: MediaType.csv,
   useBom: true,
   columnHeaders: [],
   useKeysAsHeaders: false,

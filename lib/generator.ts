@@ -67,10 +67,12 @@ export const asBlob =
     const withDefaults = mkConfig(config);
     const data = unpack(csvOutput);
 
-    // Create blob from CsvOutput either as text or csv file.
-    const fileType = withDefaults.useTextFile ? "plain" : "csv";
+    // Create blob from CsvOutput using the supplied mime type.
+    const mimeType = withDefaults.useTextFile
+      ? "text/plain"
+      : withDefaults.mediaType;
     const blob = new Blob([data], {
-      type: `text/${fileType};charset=utf8;`,
+      type: `${mimeType};charset=utf8;`,
     });
 
     return blob;
