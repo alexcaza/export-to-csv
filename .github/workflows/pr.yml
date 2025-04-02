@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run unit and e2e tests
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2.0.1
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run prettier to check formatting of files
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2.0.1
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
