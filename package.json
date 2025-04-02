@@ -41,11 +41,11 @@
   },
   "homepage": "https://github.com/alexcaza/export-to-csv#readme",
   "devDependencies": {
-    "@playwright/test": "1.40.0",
-    "bun-types": "^1.0.28",
+    "@playwright/test": "1.50.1",
+    "bun-types": "~1.2.8",
     "http-server": "^14.1.1",
-    "prettier": "3.0.3",
-    "bun": "~1.0.28",
-    "typescript": "~5.3.3"
+    "prettier": "~3.5.3",
+    "bun": "~1.2.8",
+    "typescript": "~5.8.2"
   }
 }
