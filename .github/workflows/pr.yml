@@ -11,9 +11,9 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run build step
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2.0.1
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
@@ -22,17 +22,17 @@ jobs:
     timeout-minutes: 60
     name: Unit & E2E Tests
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run unit and e2e tests
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2.0.1
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bun run test
       - run: bun run e2e-ci
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
@@ -42,9 +42,9 @@ jobs:
     name: Format check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run prettier to check formatting of files
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2.0.1
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
