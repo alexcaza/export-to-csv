@@ -365,6 +365,119 @@ describe("ExportToCsv", () => {
     expect(tsvConf.mediaType).toBe(MediaType.tsv);
   });
 
+  describe("escapeFormulas", () => {
+    it("should prefix values starting with formula trigger characters with a single quote", () => {
+      const options: ConfigOptions = {
+        useBom: false,
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+        escapeFormulas: true,
+      };
+
+      const output = asString(
+        generateCsv(options)([
+          {
+            equals: "=1+2",
+            plus: "+1+2",
+            minus: "-1+2",
+            at: "@SUM(A1:A2)",
+            tab: "\t=1+2",
+            carriageReturn: "\r=1+2",
+          },
+        ]),
+      );
+
+      expect(output).toBe(
+        '"equals","plus","minus","at","tab","carriageReturn"\r\n' +
+          '"\'=1+2","\'+1+2","\'-1+2","\'@SUM(A1:A2)","\'\t=1+2","\'\r=1+2"\r\n',
+      );
+    });
+
+    it("should not modify values that don't start with formula trigger characters", () => {
+      const options: ConfigOptions = {
+        useBom: false,
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+        escapeFormulas: true,
+      };
+
+      const output = asString(
+        generateCsv(options)([
+          {
+            safe: "hello =1+2",
+            alsoSafe: "1+2=3",
+          },
+        ]),
+      );
+
+      expect(output).toBe(
+        '"safe","alsoSafe"\r\n"hello =1+2","1+2=3"\r\n',
+      );
+    });
+
+    it("should leave formulas unescaped by default", () => {
+      const options: ConfigOptions = {
+        useBom: false,
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+      };
+
+      const output = asString(
+        generateCsv(options)([{ formula: "=1+2" }]),
+      );
+
+      expect(output).toBe('"formula"\r\n"=1+2"\r\n');
+    });
+
+    it("should escape formulas even when quoteStrings is false", () => {
+      const options: ConfigOptions = {
+        useBom: false,
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+        escapeFormulas: true,
+        quoteStrings: false,
+      };
+
+      const output = asString(
+        generateCsv(options)([{ formula: "=1+2", safe: "hello" }]),
+      );
+
+      expect(output).toBe("formula,safe\r\n'=1+2,hello\r\n");
+    });
+
+    it("should escape formulas produced via replaceUndefinedWith", () => {
+      const options: ConfigOptions = {
+        useBom: false,
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+        escapeFormulas: true,
+        replaceUndefinedWith: "=1+2",
+      };
+
+      const output = asString(
+        generateCsv(options)([{ car: "toyota", color: undefined }]),
+      );
+
+      expect(output).toBe('"car","color"\r\n"toyota","\'=1+2"\r\n');
+    });
+
+    it("should not escape numbers or booleans even if escapeFormulas is set", () => {
+      const options: ConfigOptions = {
+        useBom: false,
+        showColumnHeaders: true,
+        useKeysAsHeaders: true,
+        escapeFormulas: true,
+        boolDisplay: { true: "TRUE", false: "FALSE" },
+      };
+
+      const output = asString(
+        generateCsv(options)([{ age: -5, approved: true }]),
+      );
+
+      expect(output).toBe('"age","approved"\r\n-5,TRUE\r\n');
+    });
+  });
+
   describe("asBlob", () => {
     it("should construct a valid blob based on options", async () => {
       const options: ConfigOptions = {

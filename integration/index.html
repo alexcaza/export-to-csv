@@ -29,6 +29,15 @@
         delimiter: "\t",
         filename: "Best CSV as TSV",
       });
+      const csvConfigEscapeFormulas = mkConfig({
+        useKeysAsHeaders: true,
+        escapeFormulas: true,
+        filename: "Best CSV Escaped Formulas",
+      });
+      const csvConfigNoEscapeFormulas = mkConfig({
+        useKeysAsHeaders: true,
+        filename: "Best CSV Unescaped Formulas",
+      });
 
       const mockData = [
         {
@@ -49,12 +58,27 @@
         },
       ];
 
+      const formulaData = [
+        {
+          name: "=1+2",
+          note: "+cmd|' /C calc'!A0",
+          other: "-2+3",
+          atFormula: "@SUM(A1:A2)",
+        },
+      ];
+
       const csv = generateCsv(csvConfig)(mockData);
       const txt = generateCsv(txtConfig)(mockData);
       const tsv = generateCsv(tsvConfig)(mockData);
       const csvCustomFilename = generateCsv(csvConfig)(mockData);
       const txtCustomFilename = generateCsv(txtConfig)(mockData);
       const tsvCustomFilename = generateCsv(tsvConfig)(mockData);
+      const csvEscapeFormulas = generateCsv(csvConfigEscapeFormulas)(
+        formulaData,
+      );
+      const csvNoEscapeFormulas = generateCsv(csvConfigNoEscapeFormulas)(
+        formulaData,
+      );
 
       const csvBtn = document.querySelector("#csv");
       const txtBtn = document.querySelector("#txt");
@@ -62,6 +86,12 @@
       const csvBtnCustom = document.querySelector("#csv-custom");
       const txtBtnCustom = document.querySelector("#txt-custom");
       const tsvBtnCustom = document.querySelector("#tsv-custom");
+      const csvBtnEscapeFormulas = document.querySelector(
+        "#csv-escape-formulas",
+      );
+      const csvBtnNoEscapeFormulas = document.querySelector(
+        "#csv-no-escape-formulas",
+      );
 
       csvBtn.addEventListener("click", () => download(csvConfig)(csv));
       txtBtn.addEventListener("click", () => download(txtConfig)(txt));
@@ -75,6 +105,12 @@
       tsvBtnCustom.addEventListener("click", () =>
         download(tsvConfigCustomFilename)(tsvCustomFilename),
       );
+      csvBtnEscapeFormulas.addEventListener("click", () =>
+        download(csvConfigEscapeFormulas)(csvEscapeFormulas),
+      );
+      csvBtnNoEscapeFormulas.addEventListener("click", () =>
+        download(csvConfigNoEscapeFormulas)(csvNoEscapeFormulas),
+      );
     </script>
   </head>
 
@@ -87,6 +123,12 @@
     <button id="txt-custom">Download as TXT (custom filename)</button>
     <button id="tsv-custom">
       Download as TSV (custom filename and extension)
+    </button>
+    <button id="csv-escape-formulas">
+      Download as CSV (escape formulas)
+    </button>
+    <button id="csv-no-escape-formulas">
+      Download as CSV (formulas not escaped)
     </button>
   </body>
 </html>
