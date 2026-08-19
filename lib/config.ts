@@ -17,6 +17,7 @@ export const defaults: WithDefaults<ConfigOptions> = {
   useKeysAsHeaders: false,
   boolDisplay: { true: "TRUE", false: "FALSE" },
   replaceUndefinedWith: "",
+  escapeFormulas: false,
 };
 
 export const endOfLine = "\r\n";

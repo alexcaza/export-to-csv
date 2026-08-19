@@ -6,12 +6,12 @@ import { mkConfig } from "./config.ts";
 import { CsvDownloadEnvironmentError, CsvGenerationError } from "./errors.ts";
 import { addBOM, addBody, addHeaders, addTitle, thread } from "./helpers.ts";
 import {
-  CsvOutput,
-  ConfigOptions,
-  IO,
+  type CsvOutput,
+  type ConfigOptions,
+  type IO,
   mkCsvOutput,
   unpack,
-  AcceptedData,
+  type AcceptedData,
 } from "./types.ts";
 
 /**
@@ -39,7 +39,7 @@ export const generateCsv =
       : withDefaults.columnHeaders;
 
     // Build csv output starting with an empty string
-    let output = thread(
+    const output = thread(
       mkCsvOutput(""),
       addBOM(withDefaults),
       addTitle(withDefaults),
