@@ -1,12 +1,40 @@
 {
   "name": "export-to-csv",
   "version": "1.4.0",
-  "description": "Easily create CSV data from json collection",
-  "type": "module",
+  "author": "alexcaza",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexcaza/export-to-csv.git"
   },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "bun-types": "~1.3.14",
+    "http-server": "^14.1.1",
+    "prettier": "~3.9.6",
+    "bun": "~1.3.14",
+    "typescript": "~7.0.2"
+  },
+  "exports": "./output/index.js",
+  "bugs": {
+    "url": "https://github.com/alexcaza/export-to-csv/issues"
+  },
+  "description": "Easily create CSV data from json collection",
+  "email": "alex@alexcaza.com",
+  "engines": {
+    "node": "^v12.20.0 || >=v14.13.0"
+  },
+  "homepage": "https://github.com/alexcaza/export-to-csv#readme",
+  "keywords": [
+    "export-to-csv",
+    "export-to-excel",
+    "csv",
+    "excel",
+    "libreoffice",
+    "openoffice",
+    "typescript",
+    "zero-dependencies"
+  ],
+  "license": "MIT",
   "scripts": {
     "build": "rm -rf output && bun build index.ts --outdir ./output --minify && tsc",
     "watch": "rm -rf output && bun build index.ts --outdir ./output --minify --watch",
@@ -18,34 +46,6 @@
     "prepublishOnly": "bun run build",
     "prepare": "bun run build"
   },
-  "keywords": [
-    "export-to-csv",
-    "export-to-excel",
-    "csv",
-    "excel",
-    "libreoffice",
-    "openoffice",
-    "typescript",
-    "zero-dependencies"
-  ],
-  "author": "alexcaza",
-  "email": "alex@alexcaza.com",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/alexcaza/export-to-csv/issues"
-  },
-  "exports": "./output/index.js",
-  "types": "./output/index.d.ts",
-  "engines": {
-    "node": "^v12.20.0 || >=v14.13.0"
-  },
-  "homepage": "https://github.com/alexcaza/export-to-csv#readme",
-  "devDependencies": {
-    "@playwright/test": "1.50.1",
-    "bun-types": "~1.2.8",
-    "http-server": "^14.1.1",
-    "prettier": "~3.5.3",
-    "bun": "~1.2.8",
-    "typescript": "~5.8.2"
-  }
+  "type": "module",
+  "types": "./output/index.d.ts"
 }
