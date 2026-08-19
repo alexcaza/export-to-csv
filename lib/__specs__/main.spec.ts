@@ -410,9 +410,7 @@ describe("ExportToCsv", () => {
         ]),
       );
 
-      expect(output).toBe(
-        '"safe","alsoSafe"\r\n"hello =1+2","1+2=3"\r\n',
-      );
+      expect(output).toBe('"safe","alsoSafe"\r\n"hello =1+2","1+2=3"\r\n');
     });
 
     it("should leave formulas unescaped by default", () => {
@@ -422,9 +420,7 @@ describe("ExportToCsv", () => {
         useKeysAsHeaders: true,
       };
 
-      const output = asString(
-        generateCsv(options)([{ formula: "=1+2" }]),
-      );
+      const output = asString(generateCsv(options)([{ formula: "=1+2" }]));
 
       expect(output).toBe('"formula"\r\n"=1+2"\r\n');
     });

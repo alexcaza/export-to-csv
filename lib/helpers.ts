@@ -124,7 +124,7 @@ const isFloat = (input: boolean | string | number): boolean =>
 const containsFormula = (data: string): boolean => {
   const reg = new RegExp(/^[=+\-@\t\r]/);
   return reg.test(data);
-}
+};
 
 const escapeFormulas = (data: string): string => {
   if (containsFormula(data)) {
@@ -132,7 +132,7 @@ const escapeFormulas = (data: string): string => {
   }
 
   return data;
-}
+};
 
 const formatNumber = (config: ConfigOptions, data: number): FormattedData => {
   if (isFloat(data)) {
