@@ -93,7 +93,7 @@ export const addBody =
   ) =>
   (output: CsvOutput): CsvOutput => {
     let body = output;
-    for (var i = 0; i < bodyData.length; i++) {
+    for (let i = 0; i < bodyData.length; i++) {
       let row = mkCsvRow("");
       for (let keyPos = 0; keyPos < headers.length; keyPos++) {
         const header = getHeaderKey(headers[keyPos]);
@@ -119,7 +119,20 @@ export const addBody =
 export const asString = unpack<Newtype<any, string>>;
 
 const isFloat = (input: boolean | string | number): boolean =>
-  +input === input && (!isFinite(input) || Boolean(input % 1));
+  +input === input && (!Number.isFinite(input) || Boolean(input % 1));
+
+const containsFormula = (data: string): boolean => {
+  const reg = new RegExp(/^[=+\-@\t\r]/);
+  return reg.test(data);
+}
+
+const escapeFormulas = (data: string): string => {
+  if (containsFormula(data)) {
+    return `'${data}`;
+  }
+
+  return data;
+}
 
 const formatNumber = (config: ConfigOptions, data: number): FormattedData => {
   if (isFloat(data)) {
@@ -138,6 +151,11 @@ const formatNumber = (config: ConfigOptions, data: number): FormattedData => {
 
 const formatString = (config: ConfigOptions, data: string): FormattedData => {
   let val = data;
+
+  if (config.escapeFormulas) {
+    val = escapeFormulas(data);
+  }
+
   if (
     config.quoteStrings ||
     (config.fieldSeparator && data.indexOf(config.fieldSeparator) > -1) ||
@@ -147,9 +165,10 @@ const formatString = (config: ConfigOptions, data: string): FormattedData => {
   ) {
     val =
       config.quoteCharacter +
-      escapeDoubleQuotes(data, config.quoteCharacter) +
+      escapeDoubleQuotes(val, config.quoteCharacter) +
       config.quoteCharacter;
   }
+
   return mkFormattedData(val);
 };
 
@@ -216,7 +235,7 @@ export const formatData = (
  * See https://www.rfc-editor.org/rfc/rfc4180
  */
 function escapeDoubleQuotes(data: string, quoteCharacter?: string): string {
-  if (quoteCharacter == '"' && data.indexOf('"') > -1) {
+  if (quoteCharacter === '"' && data.indexOf('"') > -1) {
     return data.replace(/"/g, '""');
   }
   return data;
